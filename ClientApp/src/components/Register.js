@@ -18,46 +18,95 @@ export class Register extends Component {
                       country:'',
                       city:'',
                       towm:'',
-                      hiddenAlert:true
+                      hiddenAlert:true,
+                      hiddenAlertName:true,
+                      hiddenAlertFamily:true,
+                      hiddenAlertNin:true,
+                      
+                      errorMessages:{
+                              name:'فقط کارکتر فارسی و فاصله',
+                              family:'فقط کارکتر فارسی و فاصله',
+                              nin:'ققط عدد - ده رقم',
+                            },
+                      error:[true,true,true]
                   };
    
   }
   submitChangeHandler= (event)=>{
-    let dataToSend = { 
-      nin: this.state.nin,
-      name:this.state.name,
-      family:this.state.family,
-      country:this.state.country,
-      city:this.state.city,
-      address:this.state.address,
-      town:this.state.town,
-      postalCode:this.state.postalCode
-    };
+    
     event.preventDefault();
-    fetch('register/savePersonal', {
-      method: 'POST', // or 'PUT'
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(dataToSend),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-        if (data.id > 0)
-          this.props.getId(data.id);
-      })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
-  }
+   
+    //check if field verification is completed\
+    
+    if (this.fieldValidation()){
+        // put data to send to controller
+        let dataToSend = { 
+          nin: this.state.nin,
+          name:this.state.name,
+          family:this.state.family,
+          country:this.state.country,
+          city:this.state.city,
+          address:this.state.address,
+          town:this.state.town,
+          postalCode:this.state.postalCode
+        };
+        
+        fetch('register/savePersonal', {
+          method: 'POST', // or 'PUT'
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(dataToSend),
+        })
+          .then(response => response.json())
+          .then(data => {
+            console.log('Success:', data);
+            if (data.id > 0)
+              this.props.getId(data.id);
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+      }
+}
   checkingTokenHandler = () => {
     // handling the 6 digit token was sent by SMS.
+  }
+  
+    
+  fieldValidation = function (){
+    let exit=true;//return value
+    let stat={ error:[true,true,true]};//def true
+    // array of patterns
+    let patterns=[
+                    /^[\u0600-\u06FF\u08A0-\u08FF\s]+$/i, // find persian char only
+                    /^[\u0600-\u06FF\u08A0-\u08FF\s]+$/i,// find persian char only
+                    /^\d+$/ // find none digit
+                  ];
+    let values=
+                  [ 
+                    this.state.name,
+                    this.state.family,
+                    this.state.nin
+                  ]
+    // for each patern do work on each field
+    patterns.forEach(function(item,index,array){
+      // create new regex with current pattern
+      var patt=new RegExp(item);
+      //check the pattern and length
+      if(!patt.test(values[index])){
+        stat.error[index]=false;
+        exit=false;
+      }
+    });//end of foreach
+    this.setState(stat);
+    return exit;
   }
   onChangeHandler = (event) => {
     let nam = event.target.name;
     let val = event.target.value;
-    this.setState({ [nam]: val });
+    this.setState({[nam]:val});
+    this.fieldValidation();
   }
   render() {
     return (
@@ -77,23 +126,30 @@ export class Register extends Component {
               <div class="form-group">
                 <label class="title">مشخصات عمومی</label>
               </div>
-              <div class="alert alert-danger" role="alert" hidden={this.state.hiddenAlert}>
-                {this.state.alarm}
+              <div class="alert alert-danger" role="alert" hidden="true">
               </div>
               
               <div class="form-group">
                 <label for="name">نام</label>
                 <input type="text"  class="form-control" id="name" name="name" onChange={this.onChangeHandler} ></input>
+                <div class="alert alert-danger" hidden={this.state.error[0]}>
+                    {this.state.errorMessages.name}
+                </div>
               </div>
               <div class="form-group">
-                <label for="family">نام خوانوادگی</label>
+                <label for="family">نام خانوادگی</label>
                 <input type="phone" class="form-control" id="family" name="family" onChange={this.onChangeHandler} ></input>
+                <div class="alert alert-danger" hidden={this.state.error[1]}>
+                    {this.state.errorMessages.family}
+                </div>
               </div>
               <div class="form-group">
                 <label for="username">کد ملی</label>
                 <input type="text" class="form-control" id="username" name="nin" 
-                onChange={this.onChangeHandler} disabled={this.state.lockControls}></input>
-                
+                onChange={this.onChangeHandler} ></input>
+                <div class="alert alert-danger" id="nin1" name="nin2"  hidden={this.state.error[2]}>
+                    {this.state.errorMessages.nin}
+                </div>
                 
               </div>
               
@@ -153,8 +209,8 @@ export class Register extends Component {
               </div>
             </div>        
             
-            <div class="login-signup">
-                <a class="go-butt" href="" onClick={this.submitChangeHandler}> ذخیره و ادامه ثبت نام</a>
+            <div class="login-signup" >
+                <a disabled class="go-butt"  href="" onClick={this.submitChangeHandler}> ذخیره و ادامه ثبت نام</a>
               </div>
               
           </div>

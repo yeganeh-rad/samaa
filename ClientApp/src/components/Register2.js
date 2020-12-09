@@ -21,7 +21,14 @@ export class Register2 extends Component {
   componentDidMount() {
     //this.populateRequests();
   }
-  
+  async populateRequests() {
+    
+    const response = await fetch('register/getUserRequests/'+this.props.userId);
+    const data = await response.json();
+    console.log(data);
+
+    this.setState({ requests: data, loading: false });
+  }
   onChangeHandler = (event) => {
     let nam = event.target.name;
     let val = event.target.value;
@@ -40,6 +47,14 @@ export class Register2 extends Component {
       const data = await response.json();
       console.log(data);
       this.setState({registrationID : data.registrationID,finalHidden:1,finalHidden2:0,imgName:'image/3.png'})
+    }
+    async delRequest(id) {
+      const response = await fetch('register/delRequest/'+id);
+      const data = await response.json();
+      if(data){
+        this.populateRequests();
+      }
+      console.log(data);
     }
 
   submitChangeHandler= (event)=>{
@@ -72,7 +87,12 @@ export class Register2 extends Component {
         console.error('Error:', error);
       });
   }
-  static renderRequestsTable(requests) {
+  clickDel=(id,E)=>{
+    E.preventDefault();
+    this.delRequest(id);
+  }
+  
+  static renderRequestsTable(requests,This) {
     console.log(requests);
     return (
       
@@ -81,7 +101,10 @@ export class Register2 extends Component {
                     <tr key={request.id}>
                       <td>{request.description}</td>
                       <td>{request.monwyRequested}</td>
-                      <td><a href="#">ویرایش</a><span> - </span><a href="#">حذف</a></td>
+
+                      <td>
+                        <button  onClick={(E)=>This.clickDel(request.id,E)}>حذف</button>
+                      </td>
                       
                     </tr>
                   )}
@@ -93,7 +116,7 @@ export class Register2 extends Component {
   render() {
     let contents = this.state.loading
                     ? <p><em>درخواستی ثبت نشده است...</em></p>
-                    : Register2.renderRequestsTable(this.state.requests);
+                    : Register2.renderRequestsTable(this.state.requests,this);
     return (   
       <div class="row" hidden={this.props.hidden}>
         <div class="col-md-3 col-sm-0 col-0"></div>
@@ -142,17 +165,23 @@ export class Register2 extends Component {
                     
                   </tr>
                 </thead>
-               
                     {contents}
                 </table>
               </div>
-
-              <div class="login-signup">
-                <a class="go-butt" href="" onClick={this.submitFinal}> ثبت نهایی درخواست </a>
+              <div class="row">
+              <div class="col-12 col-sm-6 col-md-6" >
+                  <div class="login-signup">
+                    <a class="go-butt" href="" onClick={this.previousePage}> صفحه قبل  </a>
+                  </div>
+                </div>
+                <div class="col-12 col-sm-6 col-md-6">
+                  <div class="login-signup">
+                    < a class="go-butt" href="" onClick={this.submitFinal}> ثبت نهایی </a>
+                  </div>
+                </div>
               </div>
-              <div class="login-signup">
-                <a class="go-butt" href="" onClick={this.previousePage}> صفحه قبل  </a>
-              </div>
+              
+              
             </form>
             <div hidden={this.state.finalHidden2}>
               <p></p>
@@ -167,12 +196,5 @@ export class Register2 extends Component {
       </div>
     );
   }
-  async populateRequests() {
-    
-    const response = await fetch('register/getUserRequests/'+this.props.userId);
-    const data = await response.json();
-    console.log(data);
-
-    this.setState({ requests: data, loading: false });
-  }
+ 
 }

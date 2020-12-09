@@ -62,6 +62,18 @@ namespace  sama.Controllers
                                         .ToList();
                 return ( result.FirstOrDefault().ToList());                
             }
+            [HttpGet("delRequest/{id}")]
+           public async Task<ActionResult<bool>> delRequest(int id)
+            {
+                try{
+                     var result=_context.requestPerson.Find(id);
+                    _context.requestPerson.Remove(result);
+                    _context.SaveChanges();
+                }catch{
+                    return false;
+                }                            
+                return (true);                
+            }
             
             [HttpPost("saveNinAndPhone/")]
             public async Task<ActionResult<usernames>> saveNinAndPhone(user item)
