@@ -72,16 +72,33 @@ body{
   text-align: center;
 }
 .go-butt{
-  margin: auto;
-  
+    margin: auto;
     background-color:rgba(105 35 158);
     color: #ffffff;
     font-size: 17px;
-    font-weight: bold;
+    
     padding: 7px 10px;
     border-radius: 5px;
     transition: all 0.2s;
     text-decoration: none;
+}
+.add-butt{
+  margin: auto;
+    background-color:rgba(105 35 158);
+    color: #ffffff;
+    font-size: 15px;
+    padding: 5px 5px;
+    border-radius: 5px;
+    transition: all 0.2s;
+    text-decoration: none;
+}
+.add-butt-holder {
+  margin: 10px 5px 10px 0px;
+  text-align: left;
+}
+.add-butt:hover{
+  text-decoration: none;
+  color:yellow;
 }
 .title{
   background-color: lightgray;
@@ -122,7 +139,7 @@ header{
   
     height: auto;/* for holding in center*/
     margin: 0 auto;
-    padding: 50px;
+    padding: 30px;
     position: relative;
 }
 .fiftyPercent{
@@ -130,6 +147,9 @@ header{
 }
 .leftBorder{
   border-right: lightGray 1px solid;
+}
+.topBorder{
+  border-top: lightGray 1px solid;
 }
 .bottomBorder{
   border-bottom: lightGray 1px solid;
@@ -142,4 +162,20 @@ header{
   width: 100%;
   max-width: 400px;
   height: auto;
+}
+i{
+  margin:10px;
+}
+th{
+  color:black;
+  font-size: medium;
+  background-color:rgb(2, 140, 245);
+  line-height: 0.4;
+}
+tr{
+  line-height: 0.7;
+}
+
+.title-x-large{
+  font-size:x-large;
 }

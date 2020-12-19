@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Register } from './Register';
 import { Register2 } from './Register2';
 import { Register3 } from './Register3';
+import {File} from './File.js';
 
 
 export class Registerer extends Component {
@@ -43,9 +44,7 @@ export class Registerer extends Component {
   render() {
     return (
       <div>
-        <Register  getId={this.getId} hidden={this.state.hiddenRegister}></Register>
-        <Register2  getId={this.savedRegister2} previousePage={this.previousePage} userId={this.state.userId} hidden={this.state.hiddenRegister2}></Register2>
-        <Register3 userId={this.state.userId} hidden={this.state.hiddenRegister3}></Register3>
+        <File></File>
       </div>
     );
   }
