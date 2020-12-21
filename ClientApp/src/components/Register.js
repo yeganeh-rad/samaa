@@ -120,7 +120,7 @@ export class Register extends Component {
                 <div class="login-header-welcome">
                   <span>ثبت مشخصات متقاضی</span>
                 </div>
-                <div><img class="imgCenter" src="image/1.png"></img></div>
+                <div><img class="imgCenter" src="image/1.png" alt="" ></img></div>
             <div class="row">
               <div class="col-md-6 leftBorder bottomBorder">
               <div class="form-group">

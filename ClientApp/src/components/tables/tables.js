@@ -1,15 +1,15 @@
 import React from 'react'
-import styles from './tables.module.css'
+
 
 export default class Tables extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             tableData: [
-                { id:12,names: 'آرش' },
-                { id:13,names: 'آرش' },
-                { id:14,names: 'آرش' },
-                { id:15,names: 'آرش' }
+                { id:12,names: 'آرش',address:'تهران' },
+                { id:13,names: 'آرش' ,address:'تهران'},
+                { id:14,names: 'آرش' ,address:'تهران'},
+                { id:15,names: 'آرش' ,address:'تهران'}
             ],
             tableFields:['names', 'nin']
         }
@@ -23,14 +23,14 @@ export default class Tables extends React.Component {
                 <thead>
                     <tr>
                         {this.props.headers.map(header =>
-                            <th>{header}</th>)}
+                            <th key={header}>{header}</th>)}
                     </tr>
                 </thead>
                 <tbody>
                     {this.state.tableData.map(request =>
-                        <tr data-id={request.id}>
+                        <tr key={request.id} data-id={request.id}>
                             {Object.values(request).map((value) => 
-                                <td>{value}</td>
+                                <td key={value}>{value}</td>
                             )}
                         </tr>
                     )}

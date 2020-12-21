@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { Register } from './Register';
+import  {RegisterRequest}  from './RegisterRequest';
 import { Register2 } from './Register2';
-import { Register3 } from './Register3';
+import { RegisterPerson } from './RegisterPerson';
 import {File} from './File.js';
 
 
@@ -44,6 +44,8 @@ export class Registerer extends Component {
   render() {
     return (
       <div>
+        <RegisterRequest></RegisterRequest>
+        <RegisterPerson></RegisterPerson>
         <File></File>
       </div>
     );

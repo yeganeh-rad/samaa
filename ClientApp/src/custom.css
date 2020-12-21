@@ -92,6 +92,7 @@ body{
     transition: all 0.2s;
     text-decoration: none;
 }
+.inlineinput{display: inline;width: auto;min-width: 255px;}
 .add-butt-holder {
   margin: 10px 5px 10px 0px;
   text-align: left;
@@ -178,4 +179,26 @@ tr{
 
 .title-x-large{
   font-size:x-large;
+}
+.max-width-65{
+  max-width: 65px;
+}
+.max-width-85{
+  max-width: 85px;
+}
+.max-width-110{
+  max-width: 110px;
+}
+.title-small{
+  text-align: center;
+  width:100%;
+  background-color:lightgray;
+}
+.personal-form label{
+    padding-left: 20px;
+    text-align: left;
+}
+input::-webkit-input-placeholder {
+  color: black; /*Change the placeholder color*/
+  opacity: 0.1; /*Change the opacity between 0 and 1*/
 }

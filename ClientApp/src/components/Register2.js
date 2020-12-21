@@ -128,7 +128,7 @@ export class Register2 extends Component {
             <div class="login-header-welcome">
               <span>ثبت درخواست</span>
             </div>
-            <div><img class="imgCenter" src={this.state.imgName}></img></div>
+            <div><img class="imgCenter" alt="" src={this.state.imgName}></img></div>
             <form hidden={this.state.finalHidden}>
               <div class="form-group">
                 <label for="name">تاریخ درخواست</label>
