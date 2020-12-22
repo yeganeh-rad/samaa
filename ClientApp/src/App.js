@@ -18,7 +18,7 @@ export default class App extends Component {
   }
    render () {
     return (
-      <div id="rooot" class="rooot">
+      <div id="rooot" className="rooot">
       <Layout>
         <Route exact path='/' component={Home} />
         <Route path='/registerer' component={Registerer} />

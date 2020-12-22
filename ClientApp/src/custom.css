@@ -76,7 +76,7 @@ body{
     background-color:rgba(105 35 158);
     color: #ffffff;
     font-size: 17px;
-    font-weight: bold;
+    
     padding: 7px 10px;
     border-radius: 5px;
     transition: all 0.2s;
@@ -92,9 +92,10 @@ body{
     transition: all 0.2s;
     text-decoration: none;
 }
+.inlineinput{display: inline;width: auto;min-width: 255px;}
 .add-butt-holder {
-  margin: 10px 5px 10px 5px;
-  text-align: center;
+  margin: 10px 5px 10px 0px;
+  text-align: left;
 }
 .add-butt:hover{
   text-decoration: none;
@@ -139,7 +140,7 @@ header{
   
     height: auto;/* for holding in center*/
     margin: 0 auto;
-    padding: 50px;
+    padding: 30px;
     position: relative;
 }
 .fiftyPercent{
@@ -147,6 +148,9 @@ header{
 }
 .leftBorder{
   border-right: lightGray 1px solid;
+}
+.topBorder{
+  border-top: lightGray 1px solid;
 }
 .bottomBorder{
   border-bottom: lightGray 1px solid;
@@ -173,3 +177,28 @@ tr{
   line-height: 0.7;
 }
 
+.title-x-large{
+  font-size:x-large;
+}
+.max-width-65{
+  max-width: 65px;
+}
+.max-width-85{
+  max-width: 85px;
+}
+.max-width-110{
+  max-width: 110px;
+}
+.title-small{
+  text-align: center;
+  width:100%;
+  background-color:lightgray;
+}
+.personal-form label{
+    padding-left: 20px;
+    text-align: left;
+}
+input::-webkit-input-placeholder {
+  color: black; /*Change the placeholder color*/
+  opacity: 0.1; /*Change the opacity between 0 and 1*/
+}

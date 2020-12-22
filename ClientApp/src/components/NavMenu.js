@@ -26,7 +26,7 @@ export class NavMenu extends Component {
       <header>
         <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
           <Container>
-            <div class="logo nvabar-brand"><img src="/image/imageedit.png"></img></div>
+            <div className="logo nvabar-brand"><img src="/image/imageedit.png" alt=""></img></div>
             <NavbarBrand tag={Link} to="/">سامانه اعتبار سنجی سما</NavbarBrand>
             <NavbarToggler onClick={this.toggleNavbar} className="mr-2" />
             <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!this.state.collapsed} navbar>

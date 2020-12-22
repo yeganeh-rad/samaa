@@ -6,3 +6,42 @@
     color:rgb(7, 119, 3);
     background-color: rgb(203, 243, 191);
 }
+label{
+    min-width: 30%;
+}
+
+.valid {
+    display:inline-block;
+    position: relative
+}
+.valid:after {
+    font-family: 'Font Awesome 5 Free';
+    content: '\f058';
+    position: absolute;
+    left: 6px;
+    color:rgb(16, 211, 16);
+    
+}
+.invalid {
+    display:inline-block;
+    position: relative
+}
+.invalid:after {
+    font-family: 'Font Awesome 5 Free';
+    content: '\f057';
+    position: absolute;
+    left: 6px;
+    color:rgb(255, 71, 25);
+}
+.edit {
+    display:inline-block;
+    position: relative
+}
+.edit:after {
+    font-family: 'Font Awesome 5 Free';
+    content: '\f044';
+    position: absolute;
+    left: 6px;
+    color:rgb(220, 219, 226);
+}
+

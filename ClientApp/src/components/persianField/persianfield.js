@@ -5,10 +5,14 @@ class Persianfield extends React.Component{
     constructor(props){
         super(props);
         this.state={
-            hidden:true,
-            [this.props.identity]:' ',
-            isValueExists:false
+                        hidden:true,
+                        [this.props.identity]:' ',
+                        isValueExists:false
         };
+        
+    }
+    componentDidMount(){
+        this.props.callback(this.props.identity,false,'-'); //register it self in parent
     }
     
     selectTypeOfRegex=()=>{
@@ -27,6 +31,9 @@ class Persianfield extends React.Component{
 
             case 'phone':
                 return /^\s*[0][1-8]\d{9}$/ // phone number like 09183134346
+                
+            case 'email':
+                return /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/ //email keremlin@yahoo.com
 
             default://text
                 return /^[\u0600-\u06FF\u08A0-\u08FF\s]+$/i
@@ -45,19 +52,29 @@ class Persianfield extends React.Component{
       onChangeHandler= (event) => {
         this.setState({[event.target.name]:event.target.value});
         this.setState({isValueExists:(event.target.value.length>0)})
-        this.props.callback(this.fieldValidation(event.target.value),event.target.value);//return to parent component
+        this.props.callback(this.props.identity,this.fieldValidation(event.target.value),event.target.value);//return to parent component
       }
 
     render(){
         return(
-            <div>
-                <label for={this.props.identity}>{this.props.title}</label>
-                <input class="form-control" name={this.props.identity} id={this.props.identity} onChange={this.onChangeHandler} type="text" aria-describedby={this.props.identity+"help"} placeholder={this.props.placeholder}></input>
-                <small id={this.props.identity+"help"}  class="form-text text-muted">{this.props.helperMessage}</small>
-                <div class={styles.errr} role="alert" hidden={this.state.hidden}>
+            <div className="persianField">
+                <label htmlFor={this.props.identity}>{this.props.title}</label>
+                {
+                this.state.isValueExists
+                    ? <div className={this.state.hidden ? styles.valid : styles.invalid}>
+                        <input class="form-control inlineinput"  name={this.props.identity} id={this.props.identity} onChange={this.onChangeHandler} type="text" aria-describedby={this.props.identity+"help"} placeholder={this.props.placeholder}></input>
+                        </div>
+                    : <div className={styles.edit}>
+                            <input className="form-control inlineinput"  name={this.props.identity} id={this.props.identity} onChange={this.onChangeHandler} type="text" aria-describedby={this.props.identity+"help"} placeholder={this.props.placeholder}></input>
+                        </div>
+                }
+                
+                    
+                <small id={this.props.identity+"help"}  className="form-text text-muted">{this.props.helperMessage}</small>
+                <div className={styles.errr} role="alert" hidden={this.state.hidden}>
                     {this.props.onErrorMessage}
                 </div>
-                <div class={styles.recover} role="recover" hidden={(!this.state.hidden || !this.state.isValueExists)}>
+                <div className={styles.recover} role="recover" hidden={(!this.state.hidden || !this.state.isValueExists)}>
                     {this.props.onRecoveryMessage}
                 </div>
             </div>
