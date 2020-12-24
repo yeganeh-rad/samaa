@@ -14,8 +14,9 @@ export class RegisterRequest extends Component {
     super(props);
     this.state = { 
                     message:'',
-                          
-                    isValid:false
+                    isValid:true,
+                    controls:{},
+                    url:'request/save'
                    };
     
   }
@@ -24,33 +25,45 @@ export class RegisterRequest extends Component {
     let val = event.target.value;
     this.setState({ [nam]: val });
   }
+  gatherDataToSend=function(){
+    return {            
+              value:this.state.controls.fee.value,
+              requestType:this.state.controls.requestType.value,
+              currency:this.state.controls.currency.value,
+              scoringFile:1
+            };
+  }
+  checkValidationOfForm=function(){
+    var valid=true;
+    Object.entries(this.state.controls)
+    .map(item=>{
+      valid = valid && item[1].valid;
+    });
+    this.setState({isValid:valid});
+    return valid
+  }
   submitChangeHandler= (event)=>{
     event.preventDefault();
-    let dataToSend={
-                      id:this.props.userId,
-                      
-                      email:this.state.email,
-                      address:this.state.address,
-                      postalCode:this.state.postalCode,
-                      fatherName:this.state.tell
-                    };
-    
-    fetch('register/saveContact', {
-      method: 'POST', // or 'PUT'
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(dataToSend),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-        if (data.id > 0)
-          this.setState({message:'مشخصات شما با موفقیت ثبت گردید'});
+    if(this.checkValidationOfForm()){
+      fetch(this.state.url, {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(this.gatherDataToSend()),
       })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+          if (data.statusCode ==200)
+            this.setState({message:data.message});
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }else{
+
+    }
   }
   callbackFunction = (name, validation, value) => {
     this.setState(prevState => (
@@ -92,6 +105,8 @@ export class RegisterRequest extends Component {
                                 helperMessage=""
                                 callback={this.callbackFunction}
                                 url="form/requestType"
+                                validation={this.state.isValid}
+                                onErrorMessage="یک گزینه را انتخاب کنید"
               ></DropDown>
               <PersianField
                                 identity="fee"
@@ -103,6 +118,7 @@ export class RegisterRequest extends Component {
                                 helperMessage=""
                                 regex=""
                                 callback={this.callbackFunction}
+                                validation={this.state.isValid}
               ></PersianField>
               <DropDown
                                 identity="currency"
@@ -112,9 +128,11 @@ export class RegisterRequest extends Component {
                                 helperMessage=""
                                 callback={this.callbackFunction}
                                 url="form/currency"
+                                validation={this.state.isValid}
+                                onErrorMessage="یک گزینه را انتخاب کنید"
               ></DropDown>
               <div className="login-signup">
-                <a className="go-butt" href="" onClick={this.submitChangeHandler}>  ذخیره درخواست </a>
+                <a className="go-butt" href="" onClick={this.submitChangeHandler}>  <i className="far fa-save"></i>ذخیره درخواست </a>
               </div>
               </div>
          </div>

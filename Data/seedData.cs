@@ -51,6 +51,14 @@ namespace sama.Data
                     }
                     
                 );
+                
+                context.cities.Add(new Models.PRT.Cities{
+                    name="تویسرکان",
+                    provinces=new Models.PRT.Provinces{
+                    name="همدان"
+                    ,countries=context.countries.Where(x=>x.name=="تهران").Select(x=>x).FirstOrDefault()
+                   }
+                });
                 if(context.educations.Any()){return;}
                 context.educations.AddRange(
                     new Models.PRT.Educations{
@@ -103,7 +111,15 @@ namespace sama.Data
                     new Models.PRT.currency{name="دلار"},
                     new Models.PRT.currency{name="یورو"}
                 );
-                
+                context.scoringFiles.Add(
+                    new Models.PRT.ScoringFiles{
+                        commitDateTime="900908"
+                        ,createDateTime="900907"
+                        ,IsLawFirm=false
+                        ,trackingCode="0"
+                    
+                    }
+                );
                 if(context.User.Any()){return;}
                 //seeding
                 context.User.AddRange(

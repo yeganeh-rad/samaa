@@ -7,8 +7,7 @@ class DropDown extends React.Component{
         this.state={
             isValueExists:false,
             listData:['مقدار سوم','مقدار دوم','مقدار اول'],
-            hidden:true
-            
+            hidden:false
         };
         
     }
@@ -17,11 +16,12 @@ class DropDown extends React.Component{
         const response = await fetch(this.props.url);
         const data = await response.json();
         this.setState({listData:data});
-        console.log(data);
     }
       onChangeHandler= (event) => {
         this.setState({[event.target.name]:event.target.value});
-        this.props.callback(this.props.identity,(event.target.value.length>0),event.target.value);  //return to parent component
+        this.setState({hidden:(event.target.value.length>0)})
+        this.props.callback(this.props.identity,(event.target.value.length>0),event.target.value,
+        event.nativeEvent.target[event.nativeEvent.target.selectedIndex].text);  //return to parent component
     }
     
 
@@ -37,7 +37,7 @@ class DropDown extends React.Component{
                 </select>
                                 
                 <small id={this.props.identity+"help"}  className="form-text text-muted">{this.props.helperMessage}</small>
-                <div className={styles.errr} role="alert" hidden={this.state.hidden}>
+                <div className={styles.errr} role="alert" hidden={this.props.validation || this.state.hidden} >
                     {this.props.onErrorMessage}
                 </div>
                 <div className={styles.recover} role="recover" hidden={(!this.state.hidden || !this.state.isValueExists)}>

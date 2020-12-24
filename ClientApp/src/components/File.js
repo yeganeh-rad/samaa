@@ -39,7 +39,12 @@ export class File extends Component {
                                         </div>
                                     </div>
                                     <div className="row">
-                                        <div className="col-md-12"><Tables headers={['ردیف', 'نام', 'کدملی', 'عملیات']}></Tables></div>
+                                        <div className="col-md-12">
+                                            <Tables
+                                                                headers={['ردیف', 'نام', 'نام خانوادگی', 'کدملی','عملیات']}
+                                                                url="customer/table/1"
+                                                                urlDelete="customer/delete"
+                                            ></Tables></div>
                                     </div>
                                 </div>
                             </div>
@@ -67,7 +72,11 @@ export class File extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-md-12">
-                                    <Tables headers={['شماره', 'درخواست', 'عملیات']}></Tables>
+                                    <Tables
+                                                headers={[, 'ردیف','درخواست', 'مبلغ', 'عملیات']}
+                                                url="request/table/1"
+                                                urlDelete="request/delete"
+                                     ></Tables>
                                 </div>
                             </div>
                             <div className="row topBorder">

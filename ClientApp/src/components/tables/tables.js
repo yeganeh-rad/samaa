@@ -1,23 +1,59 @@
 import React from 'react'
+import style from './tables.module.css'
 
 export default class Tables extends React.Component {
+    static defaultProps={tableData:[{ id:12,number: 'آرش',type:'تهران' }],url:" ",urlDelete:" "}
     constructor(props) {
         super(props);
         this.state = {
-            tableData: [
-                { id:12,names: 'آرش',address:'تهران' },
-                { id:13,names: 'آرش' ,address:'تهران'},
-                { id:14,names: 'آرش' ,address:'تهران'},
-                { id:15,names: 'آرش' ,address:'تهران'}
-            ],
-            tableFields:['names', 'nin']
+            tableData: this.props.tableData,
+            url:this.props.url,
+            urlDelete:this.props.urlDelete
         }
+        
     };
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.tableData !== this.state.tableData) {
+          this.setState({ tableData: nextProps.tableData });
+        }
+      }
+    async componentDidMount() {
+       if(this.state.url != " ") {
+            const response = await fetch(this.props.url);
+            const data = await response.json();
+            this.setState({tableData:data});
+       }
+    }
+    onDelete= (request,event)=>{
+        event.preventDefault();
+    if(this.state.urlDelete!=" ")
+      fetch(this.state.urlDelete, {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({"id":request.id}),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+          if (data.statusCode ==200){
+            this.setState({message:data.message});
+            console.log(this.state.tableData.indexOf(request));
+            console.log(request);
+            var array=this.state.tableData;
+            array.splice(array.indexOf(request),1)
+            this.setState({tableData:array})
+          }
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });      
+    }
     onChangeHandler = (event) => {
     }
     render() {
         return (
-
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
@@ -31,12 +67,15 @@ export default class Tables extends React.Component {
                             {Object.values(request).map((value) => 
                                 <td key={value}>{value}</td>
                             )}
+                            <td>
+                                <a href="" className={style.red} onClick={(ev) => this.onDelete(request, ev)}><i class="far fa-trash-alt"></i></a>
+                                <a href="" className={style.green}><i class="far fa-edit"></i></a>
+                            </td>
                         </tr>
                     )}
                 </tbody>
             </table>
         )
     }
-
 }
 

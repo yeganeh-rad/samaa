@@ -44,8 +44,7 @@ export class Registerer extends Component {
   render() {
     return (
       <div>
-        <RegisterRequest></RegisterRequest>
-        <RegisterPerson></RegisterPerson>
+        
         <File></File>
       </div>
     );

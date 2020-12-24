@@ -5,7 +5,7 @@ class Persianfield extends React.Component{
     constructor(props){
         super(props);
         this.state={
-                        hidden:true,
+                        hidden:false,
                         [this.props.identity]:' ',
                         isValueExists:false
         };
@@ -71,7 +71,7 @@ class Persianfield extends React.Component{
                 
                     
                 <small id={this.props.identity+"help"}  className="form-text text-muted">{this.props.helperMessage}</small>
-                <div className={styles.errr} role="alert" hidden={this.state.hidden}>
+                <div className={styles.errr} role="alert" hidden={this.state.hidden || this.props.validation}>
                     {this.props.onErrorMessage}
                 </div>
                 <div className={styles.recover} role="recover" hidden={(!this.state.hidden || !this.state.isValueExists)}>

@@ -14,43 +14,87 @@ export class RegisterPerson extends Component {
     super(props);
     this.state = { 
                     message:'',
-                          
-                    isValid:false
+                    isValid:true,
+                    isPhoneValid:true,
+                    isAddressValid:true,
+                    phoneTable:[ ],
+                    addressTable:[ ],
+                    url:'customer/save'
+
                    };
     
   }
-  onChangeHandler = (event) => {
-    let nam = event.target.name;
-    let val = event.target.value;
-    this.setState({ [nam]: val });
+  gatherDataToSend=function(){
+    return {            
+              personName:this.state.controls.personName.value,
+              personFamily:this.state.controls.personFamily.value,
+              nin:this.state.controls.nin.value,
+              personFather:this.state.controls.personFather.value,
+              registrationNumber:this.state.controls.registrationNumber.value,
+              dateOfBirth:this.state.controls.dateOfBirth.value,
+              LocationOfBirth:this.state.controls.LocationOfBirth.value,
+              personGender:this.state.controls.personGender.value,
+              personEducation:this.state.controls.personEducation.value,
+              bussinessCode:this.state.controls.bussinessCode.value,
+              email:this.state.controls.email.value,
+              scoringFile:1,
+              phones:this.state.phoneTable,
+              addresses:this.state.addressTable
+            };
+  }
+  checkValidationOfForm=function(){
+    var valid=true;
+    Object.entries(this.state.controls)
+    .map(item=>{
+      valid = valid && item[1].valid;
+    });
+    this.setState({isValid:valid});
+    return valid
+  }
+  addPhone=(event)=>{
+    event.preventDefault();
+    if(this.state.controls.typeOfTell.valid && this.state.controls.tellNumber.valid)
+      this.setState({phoneTable:this.state.phoneTable.concat(
+         { id:this.state.phoneTable.length+1,number: this.state.controls.tellNumber.value ,type:this.state.controls.typeOfTell.value}
+      )
+    });
+    else
+      this.setState({isPhoneValid:false});
+  }
+  addAddress=(event)=>{
+    event.preventDefault();
+    if(this.state.controls.LocationOfaddress.valid && this.state.controls.postalCode.valid
+      && this.state.controls.CountryOfAddress.valid && this.state.controls.postalAddress.valid)
+      this.setState({addressTable:this.state.addressTable.concat(
+        [ { id:this.state.addressTable.length+1,postalCode: this.state.controls.postalCode.value 
+          ,desc:this.state.controls.postalAddress.value,type:this.state.controls.LocationOfaddress.value}]
+      )
+      });
+    else
+      this.setState({isAddressValid:false})
   }
   submitChangeHandler= (event)=>{
     event.preventDefault();
-    let dataToSend={
-                      id:this.props.userId,
-                      
-                      email:this.state.email,
-                      address:this.state.address,
-                      postalCode:this.state.postalCode,
-                      fatherName:this.state.tell
-                    };
-    
-    fetch('register/saveContact', {
-      method: 'POST', // or 'PUT'
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(dataToSend),
-    })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Success:', data);
-        if (data.id > 0)
-          this.setState({message:'مشخصات شما با موفقیت ثبت گردید'});
+    if(this.checkValidationOfForm()){
+      fetch(this.state.url, {
+        method: 'POST', // or 'PUT'
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(this.gatherDataToSend()),
       })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+        .then(response => response.json())
+        .then(data => {
+          console.log('Success:', data);
+          if (data.statusCode ==200)
+            this.setState({message:data.message});
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }else{
+
+    }
   }
   callbackFunction = (name, validation, value) => {
     this.setState(prevState => (
@@ -59,6 +103,18 @@ export class RegisterPerson extends Component {
           ...prevState.controls,
           [name]: {
             value: value, valid: validation
+          }
+        }
+      })
+    );
+  }
+  callbackFunction = (name, validation, value,label) => {
+    this.setState(prevState => (
+      {
+        controls: {
+          ...prevState.controls,
+          [name]: {
+            value: value, valid: validation,label:label
           }
         }
       })
@@ -100,6 +156,7 @@ export class RegisterPerson extends Component {
                                 helperMessage=""
                                 regex=""
                                 callback={this.callbackFunction}
+                                validation={this.state.isValid}
 
               ></PersianField>
               <PersianField
@@ -112,6 +169,7 @@ export class RegisterPerson extends Component {
                                 helperMessage=""
                                 regex=""
                                 callback={this.callbackFunction}
+                                validation={this.state.isValid}
 
               ></PersianField>
               <PersianField
@@ -124,6 +182,7 @@ export class RegisterPerson extends Component {
                                 helperMessage=""
                                 regex=""
                                 callback={this.callbackFunction}
+                                validation={this.state.isValid}
 
               ></PersianField>
              
@@ -137,6 +196,7 @@ export class RegisterPerson extends Component {
                                 helperMessage=""
                                 regex=""
                                 callback={this.callbackFunction}
+                                validation={this.state.isValid}
 
               ></PersianField>
               <PersianField
@@ -149,6 +209,7 @@ export class RegisterPerson extends Component {
                                 helperMessage=""
                                 regex=""
                                 callback={this.callbackFunction}
+                                validation={this.state.isValid}
 
               ></PersianField>
                <DatePicker
@@ -158,6 +219,7 @@ export class RegisterPerson extends Component {
                                 onRecoveryMessage="" 
                                 helperMessage=""
                                 callback={this.callbackFunction}
+                                validation={this.state.isValid}
               ></DatePicker>
               
               <Location
@@ -168,6 +230,7 @@ export class RegisterPerson extends Component {
                                 helperMessage=""
                                 callback={this.callbackFunction}
                                 url="form/Country"
+                                validation={this.state.isValid}
               ></Location>
               <Gender
                                 identity="personGender"
@@ -175,6 +238,8 @@ export class RegisterPerson extends Component {
                                 title="جنسیت"
                                 helperMessage=""
                                 callback={this.callbackFunction}
+                                validation={this.state.isValid}
+                                onErrorMessage="جنسیت  را انتخاب کنید"
               ></Gender>
               <DropDown
                                 identity="personEducation"
@@ -184,6 +249,8 @@ export class RegisterPerson extends Component {
                                 helperMessage=""
                                 callback={this.callbackFunction}
                                 url="form/educationList"
+                                validation={this.state.isValid}
+                                onErrorMessage="تحصیلات  را انتخاب کنید"
               ></DropDown>
                <PersianField
                                 identity="bussinessCode"
@@ -195,6 +262,7 @@ export class RegisterPerson extends Component {
                                 helperMessage=""
                                 regex=""
                                 callback={this.callbackFunction}
+                                validation={this.state.isValid}
 
               ></PersianField>
               <PersianField
@@ -207,6 +275,7 @@ export class RegisterPerson extends Component {
                                 helperMessage=""
                                 regex=""
                                 callback={this.callbackFunction}
+                                validation={this.state.isValid}
 
               ></PersianField>
               </div>
@@ -226,6 +295,8 @@ export class RegisterPerson extends Component {
                                 helperMessage=""
                                 callback={this.callbackFunction}
                                 url="form/addressLocation"
+                                validation={this.state.isValid && this.state.isAddressValid}
+                                onErrorMessage="موقعیت  را انتخاب کنید"
                          ></DropDown>
                          <PersianField
                                 identity="postalCode"
@@ -237,7 +308,7 @@ export class RegisterPerson extends Component {
                                 helperMessage=""
                                 regex=""
                                 callback={this.callbackFunction}
-
+                                validation={this.state.isValid && this.state.isAddressValid}
                           ></PersianField>
                           <Location
                                 identity="CountryOfAddress"
@@ -248,6 +319,8 @@ export class RegisterPerson extends Component {
                                 callback={this.callbackFunction}
                                 inline="true"
                                 url="form/Country"
+                                validation={this.state.isValid && this.state.isAddressValid}
+                               
                             ></Location>
                              <PersianField
                                 identity="postalAddress"
@@ -259,13 +332,15 @@ export class RegisterPerson extends Component {
                                 helperMessage=""
                                 regex=""
                                 callback={this.callbackFunction}
-
+                                validation={this.state.isValid && this.state.isAddressValid}
+                                
                           ></PersianField>
                            <div className="add-butt-holder">
-                               < a className="add-butt" href="" onClick={this.submitFinal}> <i className="far fa-plus-square"></i>اضافه شود </a>
+                               < a className="add-butt" href="" onClick={this.addAddress}> <i className="far fa-plus-square"></i>اضافه شود </a>
                             </div>
                             <Tables
-                                 headers={['ردیف', 'نام', 'کدملی', 'عملیات']}
+                                 headers={['ردیف', 'کدپستی', 'آدرس', 'عملیات']}
+                                 tableData={this.state.addressTable}
                                  
                             ></Tables>                         
                     
@@ -285,6 +360,8 @@ export class RegisterPerson extends Component {
                                 helperMessage=""
                                 callback={this.callbackFunction}
                                 url="form/phoneLocation"
+                                validation={this.state.isValid && this.state.isPhoneValid}
+                                onErrorMessage="موقعیت  را انتخاب کنید"
                          ></DropDown>
                         <PersianField
                                 identity="tellNumber"
@@ -296,13 +373,16 @@ export class RegisterPerson extends Component {
                                 helperMessage=""
                                 regex=""
                                 callback={this.callbackFunction}
-
+                                validation={this.state.isValid && this.state.isPhoneValid}
                           ></PersianField>
                            <div className="add-butt-holder">
-                               < a className="add-butt" href="" onClick={this.submitFinal}> <i className="far fa-plus-square"></i>اضافه شود </a>
+                               < a className="add-butt" href="" onClick={this.addPhone}> <i className="far fa-plus-square"></i>اضافه شود </a>
                             </div>
                             <Tables
-                                 headers={['ردیف', 'نام', 'کدملی', 'عملیات']}
+                                 headers={['ردیف', 'تلفن', 'موقعیت', 'عملیات']}
+                                 tableData={this.state.phoneTable}
+                                 url=" "
+                                  urlDelete=" "
                             ></Tables> 
                     
                   </div>
