@@ -55,15 +55,22 @@ export class RegisterRequest extends Component {
         .then(response => response.json())
         .then(data => {
           console.log('Success:', data);
-          if (data.statusCode ==200)
+          if (data.statusCode ==200){
             this.setState({message:data.message});
+            this.props.back();
+          }
         })
         .catch((error) => {
           console.error('Error:', error);
         });
+        
     }else{
 
     }
+  }
+  back=(event)=>{
+    event.preventDefault();
+    this.props.back();
   }
   callbackFunction = (name, validation, value) => {
     this.setState(prevState => (
@@ -86,7 +93,7 @@ export class RegisterRequest extends Component {
 
   render() {
     return (
-     <div className="registerRequest">
+     <div className="registerRequest" hidden={this.props.hidden}>
        <div class="row">
          <div class="col-md-3"></div>
          <div class="col-md-6" >
@@ -131,8 +138,18 @@ export class RegisterRequest extends Component {
                                 validation={this.state.isValid}
                                 onErrorMessage="یک گزینه را انتخاب کنید"
               ></DropDown>
-              <div className="login-signup">
-                <a className="go-butt" href="" onClick={this.submitChangeHandler}>  <i className="far fa-save"></i>ذخیره درخواست </a>
+              
+              <div className="row topBorder">
+                <div className="col-md-6">
+                  <div className="login-signup">
+                    <a className="go-butt" href="" onClick={this.submitChangeHandler}><i className="far fa-save"></i>ارسال به بانک </a>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="login-signup">
+                    <a className="go-butt" href="" onClick={this.back}> <i className="fas fa-external-link-alt"></i>خروج </a>
+                  </div>
+                </div>
               </div>
               </div>
          </div>

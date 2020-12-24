@@ -2,11 +2,12 @@ import React from 'react'
 import style from './tables.module.css'
 
 export default class Tables extends React.Component {
-    static defaultProps={tableData:[{ id:12,number: 'آرش',type:'تهران' }],url:" ",urlDelete:" "}
+    static defaultProps={tableData:[{ id:12,number: 'آرش',type:'تهران' }],typeRemover:false,url:" ",urlDelete:" "}
     constructor(props) {
         super(props);
         this.state = {
             tableData: this.props.tableData,
+            typeRemover:this.props.typeRemover,
             url:this.props.url,
             urlDelete:this.props.urlDelete
         }
@@ -64,12 +65,17 @@ export default class Tables extends React.Component {
                 <tbody>
                     {this.state.tableData.map(request =>
                         <tr key={request.id} data-id={request.id}>
-                            {Object.values(request).map((value) => 
-                                <td key={value}>{value}</td>
-                            )}
-                            <td>
-                                <a href="" className={style.red} onClick={(ev) => this.onDelete(request, ev)}><i class="far fa-trash-alt"></i></a>
-                                <a href="" className={style.green}><i class="far fa-edit"></i></a>
+                            
+                            {Object.keys(request).map(key =>  (!this.state.typeRemover || key!='type'?
+                            (
+                              <td key={key}>
+                                {request[key]}
+                              </td>
+                            ): null))
+                            }
+                            <td className={style.action}>
+                                <a  href="" className={style.red} onClick={(ev) => this.onDelete(request, ev)}><i class="far fa-trash-alt"></i></a>
+                                <a hidden={this.state.typeRemover} href="" className={style.green}><i class="far fa-edit"></i></a>
                             </td>
                         </tr>
                     )}

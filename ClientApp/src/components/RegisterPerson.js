@@ -87,14 +87,21 @@ export class RegisterPerson extends Component {
         .then(data => {
           console.log('Success:', data);
           if (data.statusCode ==200)
-            this.setState({message:data.message});
+            {this.setState({message:data.message});
+            this.props.back();}
         })
         .catch((error) => {
           console.error('Error:', error);
         });
+        
     }else{
 
     }
+    
+  }
+  back=(event)=>{
+    event.preventDefault();
+    this.props.back();
   }
   callbackFunction = (name, validation, value) => {
     this.setState(prevState => (
@@ -341,7 +348,7 @@ export class RegisterPerson extends Component {
                             <Tables
                                  headers={['ردیف', 'کدپستی', 'آدرس', 'عملیات']}
                                  tableData={this.state.addressTable}
-                                 
+                                 typeRemover="true"
                             ></Tables>                         
                     
                   </div>
@@ -379,20 +386,34 @@ export class RegisterPerson extends Component {
                                < a className="add-butt" href="" onClick={this.addPhone}> <i className="far fa-plus-square"></i>اضافه شود </a>
                             </div>
                             <Tables
-                                 headers={['ردیف', 'تلفن', 'موقعیت', 'عملیات']}
+                                 headers={['ردیف', 'تلفن', 'عملیات']}
                                  tableData={this.state.phoneTable}
                                  url=" "
                                   urlDelete=" "
+                                  typeRemover="true"
                             ></Tables> 
                     
                   </div>
                 </div>
               </div>
             </div>
-              
-              <div className="login-signup">
-                <a className="go-butt" href="" onClick={this.submitChangeHandler}> ذخیره و تایید مشخصات فردی </a>
+              <div class="row topBorder">
+                
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                  <div className="login-signup">
+                    <a className="go-butt" href="" onClick={this.submitChangeHandler}> <i className="far fa-save"></i>ذخیره و تایید مشخصات فردی </a>
+                  </div>
+                </div>
+                <div class="col-md-5">
+                  <div className="login-signup">
+                    <a className="go-butt" href="" onClick={this.back}> <i className="fas fa-external-link-alt"></i>بازگشت  </a>
+                  </div>
+                  <div class="col-md-1"></div>
+                </div>
               </div>
+              
+              
             </form>
           </div>
         </div>

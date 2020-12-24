@@ -6,46 +6,53 @@ import {File} from './File.js';
 
 
 export class Registerer extends Component {
-  static displayName = Registerer.name;
-
   constructor(props) {
     super(props);
-    this.state = { userId: 0,
-                    hiddenRegister:0,
-                    hiddenRegister2:1,
-                    hiddenRegister3:1
+    this.state = { 
+      fileHidden:true,
+      registerPersonHidden:false,
+      registerRequestHidden:false
                    };
   }
-  getId = (childData) => {
-    this.setState({userId: childData});
-    if(childData>0)
-    {
-      this.setState({hiddenRegister:1,hiddenRegister2:0});
-    }
+  
+addNewPerson=()=>{
+this.setState({
+  registerPersonHidden:true,
+  fileHidden:false,
+  registerRequestHidden:false});
+}
+back=()=>{
+  this.setState({
+    registerPersonHidden:false,
+    fileHidden:true,
+    registerRequestHidden:false
+  });
   }
-  previousePage = (childData)=>{
-    this.setState({hiddenRegister2:1,hiddenRegister:0});
-  }
-  savedRegister2 = (childData) => {
-    this.setState({userId: childData});
-    if(childData>0)
-    {
-      this.setState({hiddenRegister3:0,hiddenRegister2:1});
-    }
-  }
-  savedRegister3 = (childData) => {
-    this.setState({userId: childData});
-    if(childData>0)
-    {
-      this.setState({hiddenRegister:1,hiddenRegister2:0});
-    }
-  }
-
+addNewRequest=()=>{
+this.setState({registerRequestHidden:true,fileHidden:false,registerPersonHidden:false})
+}
   render() {
     return (
       <div>
+        {this.state.fileHidden && (
+          <File
+                
+                addNewPerson={this.addNewPerson}
+                addNewRequest={this.addNewRequest}
+          ></File>)}
         
-        <File></File>
+        {this.state.registerPersonHidden && (
+        <RegisterPerson
+             
+              back={this.back}
+        ></RegisterPerson>
+        )}
+        {this.state.registerRequestHidden &&(
+        <RegisterRequest
+             
+              back={this.back}
+        ></RegisterRequest>
+        )}
       </div>
     );
   }

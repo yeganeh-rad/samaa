@@ -5,9 +5,21 @@ export class File extends Component {
     super(props);
     this.state = {}
   }
+  addNewPerson=(event)=>{
+    event.preventDefault();
+      this.props.addNewPerson();
+  }
+  addNewRequest=(event)=>{
+    event.preventDefault();
+    this.props.addNewRequest();
+  }
+  componentDidMount() {
+      console.log('mount...');
+  }
+
   render() {
     return (
-        <div className="row">
+        <div className="row" hidden={this.props.hidden2}>
             <div className="col-md-2 col-sm-0 col-0"></div>
             <div className="col-md-8 col-sm-12 col-12">
                 <div className="boxer">
@@ -34,13 +46,13 @@ export class File extends Component {
                                         <div className="col-md-7 title-x-large"> <i className="fas fa-user"></i>لیست اشخاص</div>
                                         <div className="col-md-5">
                                             <div className="add-butt-holder">
-                                                < a className="add-butt" href="" onClick={this.submitFinal}> <i className="far fa-plus-square"></i>شخص جدید </a>
+                                                < a className="add-butt" href="" onClick={this.addNewPerson}> <i className="far fa-plus-square"></i>شخص جدید </a>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="row">
                                         <div className="col-md-12">
-                                            <Tables
+                                            <Tables  
                                                                 headers={['ردیف', 'نام', 'نام خانوادگی', 'کدملی','عملیات']}
                                                                 url="customer/table/1"
                                                                 urlDelete="customer/delete"
@@ -64,7 +76,7 @@ export class File extends Component {
                                         </div>
                                         <div className="col-md-5">
                                             <div className="add-butt-holder">
-                                                < a className="add-butt" href="" onClick={this.submitFinal}> <i className="far fa-plus-square"></i>درخواست جدید </a>
+                                                < a className="add-butt" href="" onClick={this.addNewRequest}> <i className="far fa-plus-square"></i>درخواست جدید </a>
                                             </div>
                                         </div>
                                     </div>
@@ -72,7 +84,7 @@ export class File extends Component {
                             </div>
                             <div className="row">
                                 <div className="col-md-12">
-                                    <Tables
+                                    <Tables 
                                                 headers={[, 'ردیف','درخواست', 'مبلغ', 'عملیات']}
                                                 url="request/table/1"
                                                 urlDelete="request/delete"
