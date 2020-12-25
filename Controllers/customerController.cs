@@ -33,11 +33,54 @@ namespace  sama.Controllers
                                     })
                             .ToListAsync();
             }
-
+            [HttpGet("edit/{customerId}")]
+           public async  Task<ActionResult<sama.VM.customerVM>> getEdit(int customerId)
+            {
+                return await _context.personalCustomers
+                                    .Where(x=>x.ID==customerId)
+                                    .Include(x=>x.education)
+                                    .Include(c=>c.phones)
+                                    .Include(x=>x.addresses)
+                                    .Include(x=>x.education)
+                                    .Include(x=>x.birthPlaceCity)
+                                    .Select(c=>new sama.VM.customerVM{
+                                        id=c.ID,
+                                        personEducation=c.education.ID,
+                                        personFamily=c.lastName,
+                                        personFather=c.fatherName,
+                                        personGender=Convert.ToInt32(c.gender),
+                                        personName=c.firstName,
+                                        registrationNumber=c.certificateNO,
+                                        nin=c.nin,
+                                        bussinessCode=c.economicCode,
+                                        dateOfBirth=c.birthDate,
+                                        email=c.email,
+                                        scoringFile=c.scoringFiles.ID,
+                                        addresses=c.addresses.Where(x=>x.ID>0)
+                                            .Select(x=>new sama.VM.address{id=x.ID,desc=x.description,postalCode=x.zipCode,type=x.addressLocations.ID}).ToList(),
+                                        phones=c.phones.Where(x=>x.ID>0).Select(x=>new VM.phone{id=x.ID,number=x.phoneNo,type=x.phoneLocations.ID}).ToList()
+                                    }).FirstOrDefaultAsync();
+                                    
+                                    //res.phones=_context.phones.Where(x=>x.ID>0).Select(x=>new VM.phone{id=x.ID,number=x.phoneNumber,type=x.phoneType}).ToList();
+            }
             
              [HttpPost("save/")]
            public async Task<ActionResult<statusVM>> save(sama.VM.customerVM item)
             {
+                 if(item.id>0){
+                 try{
+                    var person=_context.personalCustomers.Where(x=>x.ID==item.id)
+                        .Include(x=>x.addresses).Include(x=>x.phones)
+                        .FirstOrDefault();
+                    _context.Addresses.RemoveRange(person.addresses);
+                    _context.phone.RemoveRange(person.phones);
+                    
+                    _context.personalCustomers.Remove(person);
+                     _context.SaveChanges();
+                        
+                    }
+                    catch(Exception ex){return new statusVM{ message="خطا در به روز رسانی",statusCode=500,error=ex.Message};}
+                 }
                 try{
                     var listPhone=new List<sama.Models.PRT.Phones>();
                     var listAdd=new List<sama.Models.PRT.Addresses>();
@@ -57,7 +100,8 @@ namespace  sama.Controllers
                         });
                     }
                     _context.personalCustomers.Add(new Models.PRT.PersonalCustomers{
-                        scoringFiles=_context.scoringFiles.Find(item.scoringFile)
+                        ID=item.id
+                        ,scoringFiles=_context.scoringFiles.Find(item.scoringFile)
                         ,nin=item.nin
                         ,firstName=item.personName
                         ,lastName=item.personFamily
@@ -67,6 +111,7 @@ namespace  sama.Controllers
                         ,fatherName=item.personFather
                         ,economicCode=item.bussinessCode
                         ,email=item.email
+                        ,certificateNO=item.registrationNumber
                         ,phones=listPhone
                         ,addresses=listAdd
                         ,birthPlaceCity=_context.cities.Find(item.LocationOfBirth)

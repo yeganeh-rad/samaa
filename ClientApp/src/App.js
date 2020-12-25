@@ -20,8 +20,8 @@ export default class App extends Component {
     return (
       <div id="rooot" className="rooot">
       <Layout>
-        <Route exact path='/' component={Home} />
-        <Route path='/registerer' component={Registerer} />
+        <Route exact path='/' component={Registerer} />
+        <Route path='/registerer' component={Home} />
         <Route path='/register' component={Register} />
         <Route path='/register2' component={Register2} />
         <Route path='/fetch-data' component={FetchData} />

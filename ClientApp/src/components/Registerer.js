@@ -11,7 +11,8 @@ export class Registerer extends Component {
     this.state = { 
       fileHidden:true,
       registerPersonHidden:false,
-      registerRequestHidden:false
+      registerRequestHidden:false,
+      editId:0
                    };
   }
   
@@ -25,8 +26,17 @@ back=()=>{
   this.setState({
     registerPersonHidden:false,
     fileHidden:true,
-    registerRequestHidden:false
+    registerRequestHidden:false,
+    editId:0
   });
+  }
+  onEdit=(item3)=>{
+    this.setState({
+      editId:item3,
+      registerPersonHidden:true,
+      fileHidden:false,
+      registerRequestHidden:false
+    });
   }
 addNewRequest=()=>{
 this.setState({registerRequestHidden:true,fileHidden:false,registerPersonHidden:false})
@@ -36,20 +46,19 @@ this.setState({registerRequestHidden:true,fileHidden:false,registerPersonHidden:
       <div>
         {this.state.fileHidden && (
           <File
-                
                 addNewPerson={this.addNewPerson}
                 addNewRequest={this.addNewRequest}
+                onEdit={this.onEdit}
           ></File>)}
-        
         {this.state.registerPersonHidden && (
         <RegisterPerson
-             
               back={this.back}
+              editId={this.state.editId}
+              urlEdit="customer/edit"
         ></RegisterPerson>
         )}
         {this.state.registerRequestHidden &&(
         <RegisterRequest
-             
               back={this.back}
         ></RegisterRequest>
         )}

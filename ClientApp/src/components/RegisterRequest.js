@@ -142,7 +142,7 @@ export class RegisterRequest extends Component {
               <div className="row topBorder">
                 <div className="col-md-6">
                   <div className="login-signup">
-                    <a className="go-butt" href="" onClick={this.submitChangeHandler}><i className="far fa-save"></i>ارسال به بانک </a>
+                    <a className="go-butt" href="" onClick={this.submitChangeHandler}><i className="far fa-save"></i>ذخیره   </a>
                   </div>
                 </div>
                 <div className="col-md-6">

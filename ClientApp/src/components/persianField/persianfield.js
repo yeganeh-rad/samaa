@@ -6,13 +6,16 @@ class Persianfield extends React.Component{
         super(props);
         this.state={
                         hidden:false,
-                        [this.props.identity]:' ',
-                        isValueExists:false
+                        isValueExists:false,
+                        [this.props.identity]:this.props.editName,
+                        xxx:this.props.editName
         };
         
     }
+    
     componentDidMount(){
-        this.props.callback(this.props.identity,false,'-'); //register it self in parent
+        console.log(this.props.editName);
+            this.props.callback(this.props.identity,this.fieldValidation(this.state[this.props.identity]),this.state[this.props.identity]);
     }
     
     selectTypeOfRegex=()=>{
@@ -62,10 +65,10 @@ class Persianfield extends React.Component{
                 {
                 this.state.isValueExists
                     ? <div className={this.state.hidden ? styles.valid : styles.invalid}>
-                        <input class="form-control inlineinput"  name={this.props.identity} id={this.props.identity} onChange={this.onChangeHandler} type="text" aria-describedby={this.props.identity+"help"} placeholder={this.props.placeholder}></input>
+                        <input  defaultValue={this.props.editName} class="form-control inlineinput"  name={this.props.identity} id={this.props.identity} onChange={this.onChangeHandler} type="text" aria-describedby={this.props.identity+"help"} placeholder={this.props.placeholder} ></input>
                         </div>
                     : <div className={styles.edit}>
-                            <input className="form-control inlineinput"  name={this.props.identity} id={this.props.identity} onChange={this.onChangeHandler} type="text" aria-describedby={this.props.identity+"help"} placeholder={this.props.placeholder}></input>
+                            <input  defaultValue={this.props.editName} className="form-control inlineinput"  name={this.props.identity} id={this.props.identity} onChange={this.onChangeHandler} type="text" aria-describedby={this.props.identity+"help"} placeholder={this.props.placeholder} ></input>
                         </div>
                 }
                 

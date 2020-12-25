@@ -10,6 +10,8 @@ import TellType from './tellType/tellType'
 
 
 export class RegisterPerson extends Component {
+  static defaultProps={
+                          urlEdit:" "}
     constructor(props) {
     super(props);
     this.state = { 
@@ -19,11 +21,55 @@ export class RegisterPerson extends Component {
                     isAddressValid:true,
                     phoneTable:[ ],
                     addressTable:[ ],
-                    url:'customer/save'
-
-                   };
+                    url:'customer/save',
+                    urlEdit:this.props.urlEdit,
+                    editData:{
+                     id:-1
+                  }
+    }
     
   }
+    componentDidMount() {
+    console.log('mount...'+this.state.editData.id);
+    if(this.props.editId > 0) {
+       fetch(this.props.urlEdit+'/'+this.props.editId)
+      .then(response => response.json())
+      .then(data => this.setState({ editData: data,
+      
+        controls:
+        {
+          "personName":{"value":data.personName,"valid":true},
+          "personFamily":{"value":data.personFamily,"valid":true},
+          "nin":{"value":data.nin,"valid":true},
+          "personFather":{"value":data.personFather,"valid":true},
+          "registrationNumber":{"value":data.registrationNumber,"valid":true},
+          "dateOfBirth":{"value":data.dateOfBirth,"valid":true},
+          "LocationOfBirth":{"value":data.locationOfBirth,"valid":true},
+          "personGender":{"value":data.personGender,"valid":true},
+          "personEducation":{"value":data.personEducation,"valid":true},
+          "bussinessCode":{"value":data.bussinessCode,"valid":true},
+          "email":{"value":data.email,"valid":true},
+          "LocationOfaddress":{"value":0,"valid":true},
+          "postalCode":{"value":0,"valid":true},
+          "CountryOfAddress":{"value":0,"valid":true},
+          "postalAddress":{"value":0,"valid":true},
+          "typeOfTell":{"value":0,"valid":true},
+          "tellNumber":{"value":0,"valid":true}
+        },phoneTable:data.phones,addressTable:data.addresses
+      
+      }));
+ }
+}
+getPerson=(event)=>{
+  event.preventDefault();
+  if(this.state.urlEdit != " ") {
+    fetch(this.props.urlEdit+'/'+this.props.editId)
+    .then(response => response.json())
+    .then(data => this.setState({ editData: data }));
+    console.log(this.state.editData);
+}
+
+}
   gatherDataToSend=function(){
     return {            
               personName:this.state.controls.personName.value,
@@ -39,8 +85,10 @@ export class RegisterPerson extends Component {
               email:this.state.controls.email.value,
               scoringFile:1,
               phones:this.state.phoneTable,
-              addresses:this.state.addressTable
+              addresses:this.state.addressTable,
+              id:this.props.editId
             };
+            
   }
   checkValidationOfForm=function(){
     var valid=true;
@@ -76,6 +124,8 @@ export class RegisterPerson extends Component {
   submitChangeHandler= (event)=>{
     event.preventDefault();
     if(this.checkValidationOfForm()){
+      console.log('validate');
+      console.log(this.gatherDataToSend());
       fetch(this.state.url, {
         method: 'POST', // or 'PUT'
         headers: {
@@ -133,7 +183,29 @@ export class RegisterPerson extends Component {
       this.setState({isValid: this.state.isValid & this.state.controls[key].valid});
     });
   }
-
+  onRemoveFromPhoneTable=(phoneId)=>{
+    var i=0
+    for(i=0;i<this.state.phoneTable.length;i++){
+      if(this.state.phoneTable[i].id == phoneId){
+         break;
+      }
+    }
+    this.state.phoneTable.splice(i,1);
+  }
+  onRemoveFromAddressTable=(addressId)=>{
+    var i1=0
+    //TODO:use find instead of for
+    for(i1=0;i1<this.state.addressTable.length;i1++){
+      if(this.state.addressTable[i1].id == addressId){
+         break;
+      }
+    }
+    this.state.addressTable.splice(i1,1);
+  
+  }
+  onChangeHandler= (event) => {
+    this.setState({[event.target.name]:event.target.value});
+  }
   render() {
     return (
       <div className="row personal-form" hidden={this.props.hidden}>
@@ -163,7 +235,8 @@ export class RegisterPerson extends Component {
                                 helperMessage=""
                                 regex=""
                                 callback={this.callbackFunction}
-                                validation={this.state.isValid}
+                                validation={this.state.isValid}    
+                                editName={this.state.editData.personName}                  
 
               ></PersianField>
               <PersianField
@@ -177,6 +250,7 @@ export class RegisterPerson extends Component {
                                 regex=""
                                 callback={this.callbackFunction}
                                 validation={this.state.isValid}
+                                editName={this.state.editData.personFamily}
 
               ></PersianField>
               <PersianField
@@ -190,6 +264,7 @@ export class RegisterPerson extends Component {
                                 regex=""
                                 callback={this.callbackFunction}
                                 validation={this.state.isValid}
+                                editName={this.state.editData.nin}
 
               ></PersianField>
              
@@ -204,6 +279,7 @@ export class RegisterPerson extends Component {
                                 regex=""
                                 callback={this.callbackFunction}
                                 validation={this.state.isValid}
+                                editName={this.state.editData.personFather}
 
               ></PersianField>
               <PersianField
@@ -217,7 +293,7 @@ export class RegisterPerson extends Component {
                                 regex=""
                                 callback={this.callbackFunction}
                                 validation={this.state.isValid}
-
+                                editName={this.state.editData.registrationNumber}
               ></PersianField>
                <DatePicker
                                 identity="dateOfBirth"
@@ -270,6 +346,7 @@ export class RegisterPerson extends Component {
                                 regex=""
                                 callback={this.callbackFunction}
                                 validation={this.state.isValid}
+                                editName={this.state.editData.bussinessCode}
 
               ></PersianField>
               <PersianField
@@ -283,6 +360,7 @@ export class RegisterPerson extends Component {
                                 regex=""
                                 callback={this.callbackFunction}
                                 validation={this.state.isValid}
+                                editName={this.state.editData.email}
 
               ></PersianField>
               </div>
@@ -349,6 +427,9 @@ export class RegisterPerson extends Component {
                                  headers={['ردیف', 'کدپستی', 'آدرس', 'عملیات']}
                                  tableData={this.state.addressTable}
                                  typeRemover="true"
+                                 onRemove={this.onRemoveFromAddressTable}
+                                 removable="true"
+                                 
                             ></Tables>                         
                     
                   </div>
@@ -388,9 +469,11 @@ export class RegisterPerson extends Component {
                             <Tables
                                  headers={['ردیف', 'تلفن', 'عملیات']}
                                  tableData={this.state.phoneTable}
-                                 url=" "
+                                  url=" "
                                   urlDelete=" "
                                   typeRemover="true"
+                                  onRemove={this.onRemoveFromPhoneTable}
+                                 removable="true"
                             ></Tables> 
                     
                   </div>
@@ -405,15 +488,12 @@ export class RegisterPerson extends Component {
                     <a className="go-butt" href="" onClick={this.submitChangeHandler}> <i className="far fa-save"></i>ذخیره و تایید مشخصات فردی </a>
                   </div>
                 </div>
-                <div class="col-md-5">
+                <div class="col-md-3">
                   <div className="login-signup">
                     <a className="go-butt" href="" onClick={this.back}> <i className="fas fa-external-link-alt"></i>بازگشت  </a>
                   </div>
-                  <div class="col-md-1"></div>
                 </div>
               </div>
-              
-              
             </form>
           </div>
         </div>

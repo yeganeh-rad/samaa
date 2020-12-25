@@ -13,10 +13,9 @@ export class File extends Component {
     event.preventDefault();
     this.props.addNewRequest();
   }
-  componentDidMount() {
-      console.log('mount...');
-  }
-
+    onEdit=(item2)=>{
+        this.props.onEdit(item2);
+    }
   render() {
     return (
         <div className="row" hidden={this.props.hidden2}>
@@ -56,6 +55,9 @@ export class File extends Component {
                                                                 headers={['ردیف', 'نام', 'نام خانوادگی', 'کدملی','عملیات']}
                                                                 url="customer/table/1"
                                                                 urlDelete="customer/delete"
+                                                                editable="true"
+                                                                
+                                                                onEdit={this.onEdit}
                                             ></Tables></div>
                                     </div>
                                 </div>

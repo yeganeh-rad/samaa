@@ -30,7 +30,6 @@ namespace sama.VM
         public int id{get;set;}
         public int type{get;set;}
         public string postalCode{get;set;}
-        public string country {get;set;}
         public string desc{get;set;}
     }
 }

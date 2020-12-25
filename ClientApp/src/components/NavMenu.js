@@ -37,9 +37,7 @@ export class NavMenu extends Component {
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/registerer">ثبت نام</NavLink>
                 </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/fetch-data">کاربران</NavLink>
-                </NavItem>
+                
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/login">ورود</NavLink>
                 </NavItem>

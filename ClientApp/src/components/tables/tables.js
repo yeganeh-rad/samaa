@@ -2,14 +2,19 @@ import React from 'react'
 import style from './tables.module.css'
 
 export default class Tables extends React.Component {
-    static defaultProps={tableData:[{ id:12,number: 'آرش',type:'تهران' }],typeRemover:false,url:" ",urlDelete:" "}
+    static defaultProps={
+      tableData:[{
+        id:12,number: 'آرش',type:'تهران' }],typeRemover:false,editable:false,url:" ",urlDelete:" ",removable:false}
     constructor(props) {
         super(props);
         this.state = {
             tableData: this.props.tableData,
+            editable:this.props.editable,
             typeRemover:this.props.typeRemover,
             url:this.props.url,
-            urlDelete:this.props.urlDelete
+            urlDelete:this.props.urlDelete,
+            removable:this.props.removable,
+            urlEdit:this.props.urlEdit
         }
         
     };
@@ -27,7 +32,13 @@ export default class Tables extends React.Component {
     }
     onDelete= (request,event)=>{
         event.preventDefault();
-    if(this.state.urlDelete!=" ")
+    if(this.state.removable)
+    {
+      var array=this.state.tableData;
+      array.splice(array.indexOf(request),1);
+      this.setState({tableData:array});
+      this.props.onRemove(request.id);
+    }else if(this.state.urlDelete!=" ")
       fetch(this.state.urlDelete, {
         method: 'POST', // or 'PUT'
         headers: {
@@ -50,6 +61,15 @@ export default class Tables extends React.Component {
         .catch((error) => {
           console.error('Error:', error);
         });      
+    }
+    onEdit=(item,event)=>{
+      event.preventDefault();
+      this.props.onEdit(item.id);
+      //if(this.state.urlEdit != " ") {
+       // const response =  fetch(this.props.urlEdit+'/'+item.id);
+       // const data =  response.json();
+        //this.setState({tableData:data});
+      
     }
     onChangeHandler = (event) => {
     }
@@ -75,7 +95,7 @@ export default class Tables extends React.Component {
                             }
                             <td className={style.action}>
                                 <a  href="" className={style.red} onClick={(ev) => this.onDelete(request, ev)}><i class="far fa-trash-alt"></i></a>
-                                <a hidden={this.state.typeRemover} href="" className={style.green}><i class="far fa-edit"></i></a>
+                                <a hidden={!this.state.editable} onClick={(ev) => this.onEdit(request, ev)} href="" className={style.green}><i class="far fa-edit"></i></a>
                             </td>
                         </tr>
                     )}

@@ -7,7 +7,8 @@ class DropDown extends React.Component{
         this.state={
             isValueExists:false,
             listData:['مقدار سوم','مقدار دوم','مقدار اول'],
-            hidden:false
+            hidden:false,
+           
         };
         
     }
@@ -31,7 +32,7 @@ class DropDown extends React.Component{
                 
                 <label htmlFor={this.props.identity}>{this.props.title}</label>
                 
-                <select className="browser-default custom-select max-width-110" id={this.props.identity+'0'} name={this.props.identity+'0'} onChange={this.onChangeHandler}>
+                <select  className="browser-default custom-select max-width-110" id={this.props.identity+'0'} name={this.props.identity+'0'} onChange={this.onChangeHandler}>
                   <option defaultValue="">{this.props.defaultValue} </option>
                   {this.state.listData.map((number)=><option value={number.id}  key={number.id}>{number.name}</option>)}
                 </select>
