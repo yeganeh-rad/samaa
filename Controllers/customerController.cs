@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using sama.Data;
-using sama.Models;
 using sama.VM;
 namespace  sama.Controllers 
 {

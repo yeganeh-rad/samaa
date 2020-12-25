@@ -16,7 +16,6 @@ export default class Tables extends React.Component {
             removable:this.props.removable,
             urlEdit:this.props.urlEdit
         }
-        
     };
     componentWillReceiveProps(nextProps) {
         if (nextProps.tableData !== this.state.tableData) {
@@ -65,11 +64,6 @@ export default class Tables extends React.Component {
     onEdit=(item,event)=>{
       event.preventDefault();
       this.props.onEdit(item.id);
-      //if(this.state.urlEdit != " ") {
-       // const response =  fetch(this.props.urlEdit+'/'+item.id);
-       // const data =  response.json();
-        //this.setState({tableData:data});
-      
     }
     onChangeHandler = (event) => {
     }

@@ -24,7 +24,6 @@ export class Login extends Component {
     let val = event.target.value;
     this.setState({ [nam]: val });
   }
-
   submitChangeHandler = (event) => {
     event.preventDefault();
     const data = this.state.usernames;
@@ -44,18 +43,13 @@ export class Login extends Component {
         this.state.usernames.username = data.username;
         if (data.id > 0)
           this.props.history.push('/fetch-data');
-
       })
       .catch((error) => {
         console.error('Error:', error);
       });
-    //this.setState({username:event.terget.value})
   }
   gotoRegister=(event)=>{
-    //event.preventDefault();
-    //this.props.history.push('/registerer');
   }
-
   render() {
     return (
       <div class="row">
@@ -97,7 +91,6 @@ export class Login extends Component {
         </div>
         <div class="col-md-4 col-sm-0 col-0"></div>
       </div>
-      
     );
   }
 }

@@ -8,9 +8,7 @@ class AddressType extends React.Component{
             isValueExists:false,
             address:['خدماتی','تجاری','مسکونی'],
             hidden:true
-            
         };
-        
     }
     componentDidMount(){
         this.props.callback(this.props.identity,false,''); //register it self in parent
@@ -19,8 +17,6 @@ class AddressType extends React.Component{
         this.setState({[event.target.name]:event.target.value});
         this.props.callback(this.props.identity,(event.target.value.length>0),event.target.value);  //return to parent component
     }
-    
-
     render(){
         return(
             <div className="AddressType">

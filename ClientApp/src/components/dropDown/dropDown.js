@@ -11,9 +11,7 @@ class DropDown extends React.Component{
             listData:['مقدار سوم','مقدار دوم','مقدار اول'],
             hidden:false,
             disableValidation:this.props.disableValidation
-           
         };
-        
     }
     async componentDidMount(){
         this.props.callback(this.props.identity,this.state.disableValidation,''); //register it self in parent
@@ -27,8 +25,6 @@ class DropDown extends React.Component{
         this.props.callback(this.props.identity,(event.target.value.length>0),event.target.value,
         event.nativeEvent.target[event.nativeEvent.target.selectedIndex].text);  //return to parent component
     }
-    
-
     render(){
         return(
             <div className="dropDown">
