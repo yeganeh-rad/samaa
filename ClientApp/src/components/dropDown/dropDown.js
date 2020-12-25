@@ -2,18 +2,21 @@ import React from 'react'
 import styles from './dropDown.module.css'
 
 class DropDown extends React.Component{
+    static defaultProps={
+        disableValidation:false}
     constructor(props){
         super(props);
         this.state={
             isValueExists:false,
             listData:['مقدار سوم','مقدار دوم','مقدار اول'],
             hidden:false,
+            disableValidation:this.props.disableValidation
            
         };
         
     }
     async componentDidMount(){
-        this.props.callback(this.props.identity,false,''); //register it self in parent
+        this.props.callback(this.props.identity,this.state.disableValidation,''); //register it self in parent
         const response = await fetch(this.props.url);
         const data = await response.json();
         this.setState({listData:data});
@@ -38,7 +41,7 @@ class DropDown extends React.Component{
                 </select>
                                 
                 <small id={this.props.identity+"help"}  className="form-text text-muted">{this.props.helperMessage}</small>
-                <div className={styles.errr} role="alert" hidden={this.props.validation || this.state.hidden} >
+                <div className={styles.errr} role="alert" hidden={this.props.validation || this.state.hidden||this.props.disableValidation} >
                     {this.props.onErrorMessage}
                 </div>
                 <div className={styles.recover} role="recover" hidden={(!this.state.hidden || !this.state.isValueExists)}>

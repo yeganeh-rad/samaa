@@ -9,19 +9,19 @@ class DatePicker extends React.Component{
             years:this.createYears(1300,1400),
             month:this.createYears(1,12),
             day:this.createDays(1),
-            hidden:true
+            hidden:false
         };
         
     }
     componentDidMount(){
-        this.props.callback(this.props.identity,false,''); //register it self in parent
+        this.props.callback(this.props.identity,false,'-'); //register it self in parent
     }
       onChangeHandler= (event) => {
         this.setState({[event.target.name]:event.target.value});
-        
         if(event.target.name.includes('1')) this.setState({day:this.createDays(event.target.value)});
         let finalDate=this.getValue(event.target.name,event.target.value)
-        this.props.callback(this.props.identity,!isNaN(finalDate),finalDate);  //return to parent component
+        this.props.callback(this.props.identity,!isNaN(finalDate),finalDate); 
+        if(isNaN(finalDate)){this.state.hidden=false;}else{this.state.hidden=true;} //return to parent component
     }
     getValue=function(item,value){
         if(item.includes('0'))
@@ -50,20 +50,20 @@ class DatePicker extends React.Component{
                 <label htmlFor={this.props.identity}>{this.props.title}</label>
                 
                 <select className="browser-default custom-select max-width-85" id={this.props.identity+'0'} name={this.props.identity+'0'} onChange={this.onChangeHandler}>
-                  <option defaultValue="1401">سال </option>
+                <option defaultValue="0">سال</option>
                   {this.state.years.map((number)=><option value={number} key={number}>{number}</option>)}
                 </select>
                 <select className="browser-default custom-select max-width-85" id={this.props.identity+'1'} name={this.props.identity+'1'} onChange={this.onChangeHandler}>
-                  <option defaultValue="0">ماه</option>
+                <option defaultValue="0">ماه</option>
                   {this.state.month.map((number)=><option value={number}  key={number}>{number}</option>)}
                 </select>
                 <select className="browser-default custom-select max-width-85" id={this.props.identity+'2'} name={this.props.identity+'2'} onChange={this.onChangeHandler}>
-                  <option defaultValue="0">روز </option>
+                <option defaultValue="0">روز</option>
                   {this.state.day.map((number)=><option value={number}  key={number}>{number}</option>)}
                 </select>
                 
                 <small id={this.props.identity+"help"}  className="form-text text-muted">{this.props.helperMessage}</small>
-                <div className={styles.errr} role="alert" hidden={this.state.hidden}>
+                <div className={styles.errr} role="alert" hidden={this.state.hidden|| this.props.validation}>
                     {this.props.onErrorMessage}
                 </div>
                 <div className={styles.recover} role="recover" hidden={(!this.state.hidden || !this.state.isValueExists)}>

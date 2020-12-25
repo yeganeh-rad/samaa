@@ -147,7 +147,7 @@ export class RegisterRequest extends Component {
                 </div>
                 <div className="col-md-6">
                   <div className="login-signup">
-                    <a className="go-butt" href="" onClick={this.back}> <i className="fas fa-external-link-alt"></i>خروج </a>
+                    <a className="go-butt" href="" onClick={this.back}> <i className="fas fa-external-link-alt"></i>بازگشت </a>
                   </div>
                 </div>
               </div>

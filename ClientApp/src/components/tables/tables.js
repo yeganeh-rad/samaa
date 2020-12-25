@@ -75,6 +75,7 @@ export default class Tables extends React.Component {
     }
     render() {
         return (
+          <div className={this.props.scroll && this.state.tableData.length>3 ?style.scroll:null}>
             <table className='table table-striped' aria-labelledby="tabelLabel">
                 <thead>
                     <tr>
@@ -101,6 +102,7 @@ export default class Tables extends React.Component {
                     )}
                 </tbody>
             </table>
+          </div>
         )
     }
 }

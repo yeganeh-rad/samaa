@@ -7,6 +7,7 @@ import DropDown from './dropDown/dropDown'
 import AddressType from './addressType/addressType'
 import Tables from './tables/tables'
 import TellType from './tellType/tellType'
+import Modal from './modal/modal';
 
 
 export class RegisterPerson extends Component {
@@ -265,6 +266,7 @@ getPerson=(event)=>{
                                 callback={this.callbackFunction}
                                 validation={this.state.isValid}
                                 editName={this.state.editData.nin}
+                                maxLength="10"
 
               ></PersianField>
              
@@ -294,6 +296,7 @@ getPerson=(event)=>{
                                 callback={this.callbackFunction}
                                 validation={this.state.isValid}
                                 editName={this.state.editData.registrationNumber}
+                                maxLength="10"
               ></PersianField>
                <DatePicker
                                 identity="dateOfBirth"
@@ -382,6 +385,7 @@ getPerson=(event)=>{
                                 url="form/addressLocation"
                                 validation={this.state.isValid && this.state.isAddressValid}
                                 onErrorMessage="موقعیت  را انتخاب کنید"
+                                disableValidation="true"
                          ></DropDown>
                          <PersianField
                                 identity="postalCode"
@@ -394,6 +398,8 @@ getPerson=(event)=>{
                                 regex=""
                                 callback={this.callbackFunction}
                                 validation={this.state.isValid && this.state.isAddressValid}
+                                disableValidation="true"
+                                maxLength="10"
                           ></PersianField>
                           <Location
                                 identity="CountryOfAddress"
@@ -405,11 +411,11 @@ getPerson=(event)=>{
                                 inline="true"
                                 url="form/Country"
                                 validation={this.state.isValid && this.state.isAddressValid}
-                               
+                                disableValidation="true"
                             ></Location>
                              <PersianField
                                 identity="postalAddress"
-                                type="text"//number phone email nin text mobilePhone
+                                type="textAndNumber"//number phone email nin text mobilePhone
                                 title="آدرس"
                                 placeholder="خیابان ..کوچه ..."
                                 onErrorMessage="آدرس را فارسی وارد کنید"
@@ -418,7 +424,7 @@ getPerson=(event)=>{
                                 regex=""
                                 callback={this.callbackFunction}
                                 validation={this.state.isValid && this.state.isAddressValid}
-                                
+                                disableValidation="true"
                           ></PersianField>
                            <div className="add-butt-holder">
                                < a className="add-butt" href="" onClick={this.addAddress}> <i className="far fa-plus-square"></i>اضافه شود </a>
@@ -429,7 +435,7 @@ getPerson=(event)=>{
                                  typeRemover="true"
                                  onRemove={this.onRemoveFromAddressTable}
                                  removable="true"
-                                 
+                                 scroll="true"
                             ></Tables>                         
                     
                   </div>
@@ -450,10 +456,11 @@ getPerson=(event)=>{
                                 url="form/phoneLocation"
                                 validation={this.state.isValid && this.state.isPhoneValid}
                                 onErrorMessage="موقعیت  را انتخاب کنید"
+                                disableValidation="true"
                          ></DropDown>
                         <PersianField
                                 identity="tellNumber"
-                                type="phone"//number phone email nin text mobilePhone
+                                type="allPhone"//number phone email nin text mobilePhone
                                 title="تلفن"
                                 placeholder="02166554799"
                                 onErrorMessage="تلفن را صحیح وارد کنید"
@@ -462,6 +469,8 @@ getPerson=(event)=>{
                                 regex=""
                                 callback={this.callbackFunction}
                                 validation={this.state.isValid && this.state.isPhoneValid}
+                                disableValidation="true"
+                                maxLength="11"
                           ></PersianField>
                            <div className="add-butt-holder">
                                < a className="add-butt" href="" onClick={this.addPhone}> <i className="far fa-plus-square"></i>اضافه شود </a>
@@ -474,6 +483,7 @@ getPerson=(event)=>{
                                   typeRemover="true"
                                   onRemove={this.onRemoveFromPhoneTable}
                                  removable="true"
+                                 scroll="true"
                             ></Tables> 
                     
                   </div>
@@ -486,6 +496,7 @@ getPerson=(event)=>{
                 <div class="col-md-5">
                   <div className="login-signup">
                     <a className="go-butt" href="" onClick={this.submitChangeHandler}> <i className="far fa-save"></i>ذخیره و تایید مشخصات فردی </a>
+                    
                   </div>
                 </div>
                 <div class="col-md-3">
@@ -498,6 +509,7 @@ getPerson=(event)=>{
           </div>
         </div>
         <div className="col-md-1 col-sm-0 col-0"></div>
+        
       </div>
     );
   }

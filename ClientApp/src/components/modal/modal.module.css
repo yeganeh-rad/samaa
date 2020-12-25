@@ -6,14 +6,7 @@
     color:rgb(7, 119, 3);
     background-color: rgb(203, 243, 191);
 }
-.green{color:rgb(7, 119, 3);}
-.red{color:rgb(248, 18, 10);}
-.action i{
-  
+.formchecklabel{
     margin: 0px 5px 0px 5px;
-    ;line-height: 0.7;
-}
-.scroll{
-    height: 160px;
-    overflow: scroll;
+
 }

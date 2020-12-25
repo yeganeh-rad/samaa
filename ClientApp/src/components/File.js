@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Tables from './tables/tables';
+
 export class File extends Component {
     constructor(props) {
     super(props);
@@ -18,7 +19,11 @@ export class File extends Component {
     }
   render() {
     return (
+        
         <div className="row" hidden={this.props.hidden2}>
+            <div className="row">
+               
+            </div>
             <div className="col-md-2 col-sm-0 col-0"></div>
             <div className="col-md-8 col-sm-12 col-12">
                 <div className="boxer">
@@ -33,7 +38,7 @@ export class File extends Component {
                             <span>شماره پرونده : 39239</span>
                         </div>
                         <div className="col-md-6 leftBorder bottomBorder">
-                            <span>تاریخ پرونده : 10/09/1399</span>
+                            <span>تاریخ پرونده : 1399/10/5  </span>
                         </div>
                     </div>
                     <div className="row">
