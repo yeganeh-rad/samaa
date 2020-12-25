@@ -14,6 +14,10 @@ export class File extends Component {
     event.preventDefault();
     this.props.addNewRequest();
   }
+  saveAndExit=(event)=>{
+    event.preventDefault();
+    this.props.saveAndExit();
+  }
     onEdit=(item2)=>{
         this.props.onEdit(item2);
     }
@@ -101,12 +105,12 @@ export class File extends Component {
                             <div className="row topBorder">
                                 <div className="col-md-6">
                                     <div className="login-signup">
-                                        <a className="go-butt" href="" onClick={this.submitChangeHandler}><i className="far fa-save"></i>ارسال به بانک </a>
+                                        <a className="go-butt" href="" onClick={this.saveAndExit}><i className="far fa-save"></i>ارسال به بانک </a>
                                     </div>
                                 </div>
                                 <div className="col-md-6">
                                     <div className="login-signup">
-                                        <a className="go-butt" href="" onClick={this.submitChangeHandler}> <i className="fas fa-external-link-alt"></i>خروج </a>
+                                        <a className="go-butt" href="" onClick={this.saveAndExit}> <i className="fas fa-external-link-alt"></i>خروج </a>
                                     </div>
                                 </div>
                             </div>

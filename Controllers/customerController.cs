@@ -137,6 +137,32 @@ namespace  sama.Controllers
                     }
                 catch(Exception ex){return new statusVM{ message="خطا در ذخیره سازی",statusCode=500,error=ex.Message};}
             }
+            [HttpPost("saveFile/")]
+           public async Task<ActionResult<statusVM>> saveFile(sama.Models.PRT.ScoringFileStatus item)
+            {
+                try{
+                    
+                    if(!_context.scoringFileStatus.Any(x=>x.ID==200)){
+                        _context.scoringFileStatus.Add(new Models.PRT.ScoringFileStatus{
+                            ID=200,
+                            name="200"
+                        });
+                        _context.SaveChanges();
+                        
+                    }
+                    var rand = new Random();
+                    var track=rand.Next(999999)+"";
+                    sama.Models.PRT.ScoringFileStatus status200=_context.scoringFileStatus.Find(200);
+                    var file=_context.scoringFiles.Find(item.ID);
+                    file.trackingCode=track;
+                    file.commitDateTime="13991005";
+                    file.scoringFileStatus=status200;
+                    _context.SaveChanges();
+                    
+                    return new statusVM{ message=(track),statusCode=200} ;
+                     }
+                catch(Exception ex){return new statusVM{ message="خطا در ذخیره سازی",statusCode=500,error=ex.Message};}
+            }
             
     }
     
