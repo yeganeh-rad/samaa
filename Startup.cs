@@ -26,7 +26,7 @@ namespace sama
             services.AddControllersWithViews();
             //added for ef
             services.AddDbContext<MvcUserContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("UserContext")));
+                options.UseSqlServer(Configuration.GetConnectionString("UserContext")));
             services.AddDatabaseDeveloperPageExceptionFilter();
 
 

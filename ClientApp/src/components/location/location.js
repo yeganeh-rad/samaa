@@ -23,8 +23,8 @@ class Location extends React.Component{
     }
      componentDidMount(){
         this.props.callback(this.props.identity,this.state.disableValidation,''); //register it self in parent
-         this.update(1,
-                        '1');
+         this.update('-2',
+                        '-2');
     }
       onChangeHandler= (event) => {
         this.setState({[event.target.name]:event.target.value});
@@ -46,6 +46,9 @@ class Location extends React.Component{
         const data2 = await response2.json();
         const response3 = await fetch('form/cities/'+url2+'/'+url1);
         const data3 = await response3.json();
+        console.log(data);
+        console.log(data2);
+        console.log(data3);
         this.setState(
             {listData:{
                             city:data3,

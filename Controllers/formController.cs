@@ -28,6 +28,7 @@ namespace  sama.Controllers
         [HttpGet("provinces/{country}/")]
          public async Task<ActionResult<ICollection<sama.Models.PRT.Provinces>>> provinces(int country)
          {
+            if(country>0)
             return (
                await 
                      _context.provinces
@@ -35,11 +36,19 @@ namespace  sama.Controllers
                      .Select(x=>x)
                      .ToListAsync()
             ); 
+            else
+             return (
+               await 
+                     _context.provinces
+                     .Where(x=>x.countries==_context.countries.ToList().First())
+                     .Select(x=>x)
+                     .ToListAsync()
+            ); 
          }  
          [HttpGet("Cities/{province}/{country}")]
          public async Task<ActionResult<ICollection<sama.Models.PRT.Cities>>> cities(int province, int country)
          {
-            if (province != -1)
+            if (province > 0)
             {
                 return (
                    await
@@ -49,9 +58,20 @@ namespace  sama.Controllers
                          .ToListAsync()
                 );
             }
-            else
+            else if(province == -1)
             {
                var item=_context.provinces.Where(x=>x.countries.ID==country).FirstOrDefault();
+                return (
+                   await
+                         _context.cities
+                         .Where(x => x.provinces == item)
+                         .Select(x => x)
+                         .ToListAsync()
+                );
+            }
+            else{
+                var cont=_context.countries.ToList().First();
+                var item=_context.provinces.Where(x=>x.countries==cont).FirstOrDefault();
                 return (
                    await
                          _context.cities

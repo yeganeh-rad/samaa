@@ -5,6 +5,7 @@ namespace sama.Models.PRT{
     public class ScoringFileStatus{
         public int ID{get;set;}
         public string name{get;set;}
+        public string data{get;set;}
         
     }
 }

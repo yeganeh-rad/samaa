@@ -24,7 +24,7 @@ namespace  sama.Controllers
             {
                 
                 return await _context.requests
-                            .Where(x=>x.scoringFiles.ID==file)
+                            .Where(x=>x.scoringFiles.ID==defaultFile().ID)
                             .Select(c=>new sama.VM.requestList{
                                         type=c.requestTypes.name
                                         ,fee=c.value.ToString()
@@ -42,7 +42,7 @@ namespace  sama.Controllers
                                                         value=item.value
                                                         ,requestTypes= _context.requestTypes.Find(item.requestType)
                                                         ,currency=_context.currencies.Find(item.currency)
-                                                        ,scoringFiles=_context.scoringFiles.Find(item.scoringFile)
+                                                        ,scoringFiles=defaultFile()
                         }
                     );
                     _context.SaveChanges();
@@ -60,6 +60,10 @@ namespace  sama.Controllers
                     }
                 catch(Exception ex){return new statusVM{ message="خطا در ذخیره سازی",statusCode=500,error=ex.Message};}
             }
+            private sama.Models.PRT.ScoringFiles defaultFile(){
+                return _context.scoringFiles.ToList().FirstOrDefault();
+            }
     }
+    
     
 }

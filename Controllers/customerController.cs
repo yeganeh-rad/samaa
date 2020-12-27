@@ -23,7 +23,7 @@ namespace  sama.Controllers
             {
                 
                 return await _context.personalCustomers
-                            .Where(x=>x.scoringFiles.ID==file)
+                            .Where(x=>x.scoringFiles.ID==defaultFile().ID)
                             .Select(c=>new sama.VM.customerList{
                                         nin=c.nin
                                         ,family=c.lastName
@@ -54,7 +54,7 @@ namespace  sama.Controllers
                                         bussinessCode=c.economicCode,
                                         dateOfBirth=c.birthDate,
                                         email=c.email,
-                                        scoringFile=c.scoringFiles.ID,
+                                        scoringFile=defaultFile().ID,//c.defaultFile().ID,
                                         addresses=c.addresses.Where(x=>x.ID>0)
                                             .Select(x=>new sama.VM.address{id=x.ID,desc=x.description,postalCode=x.zipCode,type=x.addressLocations.ID}).ToList(),
                                         phones=c.phones.Where(x=>x.ID>0).Select(x=>new VM.phone{id=x.ID,number=x.phoneNo,type=x.phoneLocations.ID}).ToList()
@@ -99,8 +99,8 @@ namespace  sama.Controllers
                         });
                     }
                     _context.personalCustomers.Add(new Models.PRT.PersonalCustomers{
-                        ID=item.id
-                        ,scoringFiles=_context.scoringFiles.Find(item.scoringFile)
+                        //ID=item.id
+                        scoringFiles=_context.scoringFiles.Find(defaultFile().ID)//(item.scoringFile)
                         ,nin=item.nin
                         ,firstName=item.personName
                         ,lastName=item.personFamily
@@ -141,9 +141,8 @@ namespace  sama.Controllers
             {
                 try{
                     
-                    if(!_context.scoringFileStatus.Any(x=>x.ID==200)){
+                    if(!_context.scoringFileStatus.Any(x=>x.name=="200")){
                         _context.scoringFileStatus.Add(new Models.PRT.ScoringFileStatus{
-                            ID=200,
                             name="200"
                         });
                         _context.SaveChanges();
@@ -151,8 +150,8 @@ namespace  sama.Controllers
                     }
                     var rand = new Random();
                     var track=rand.Next(999999)+"";
-                    sama.Models.PRT.ScoringFileStatus status200=_context.scoringFileStatus.Find(200);
-                    var file=_context.scoringFiles.Find(item.ID);
+                    sama.Models.PRT.ScoringFileStatus status200=_context.scoringFileStatus.Where(x=>x.name=="200").FirstOrDefault();
+                    var file=defaultFile();//_context.scoringFiles.Find(item.ID);
                     file.trackingCode=track;
                     file.commitDateTime="13991005";
                     file.scoringFileStatus=status200;
@@ -161,6 +160,9 @@ namespace  sama.Controllers
                     return new statusVM{ message=(track),statusCode=200} ;
                      }
                 catch(Exception ex){return new statusVM{ message="خطا در ذخیره سازی",statusCode=500,error=ex.Message};}
+            }
+             private sama.Models.PRT.ScoringFiles defaultFile(){
+                return _context.scoringFiles.ToList().FirstOrDefault();
             }
             
     }

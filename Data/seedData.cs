@@ -24,7 +24,7 @@ namespace sama.Data
                                                                                                     name="ایران"
                                                             }
                                                         },
-                        ID=2
+                        
                     },
                     new Models.PRT.Cities{
                         name="ازمیر",
@@ -34,7 +34,7 @@ namespace sama.Data
                                                                                                     name="ترکیه"
                                                             }
                                                         },
-                        ID=3
+                        
                     }
                     ,
                     new Models.PRT.Cities{
@@ -45,7 +45,7 @@ namespace sama.Data
                                                                                                     name="عراق"
                                                             }
                                                         },
-                        ID=4
+                        
                     }
                     
                 );

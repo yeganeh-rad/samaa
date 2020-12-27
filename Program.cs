@@ -20,7 +20,8 @@ namespace sama
             using (var scope = host.Services.CreateScope())
             {
                 var services = scope.ServiceProvider;
-
+                var context = services.GetRequiredService<MvcUserContext>();
+                context.Database.EnsureCreated();
                 try
                 {
                     SeedData.Initialize(services);

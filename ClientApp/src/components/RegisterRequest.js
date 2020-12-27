@@ -30,7 +30,7 @@ export class RegisterRequest extends Component {
               value:this.state.controls.fee.value,
               requestType:this.state.controls.requestType.value,
               currency:this.state.controls.currency.value,
-              scoringFile:1
+              scoringFile:3
             };
   }
   checkValidationOfForm=function(){
