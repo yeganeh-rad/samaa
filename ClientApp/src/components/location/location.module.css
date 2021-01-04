@@ -10,3 +10,11 @@
     margin: 0px 5px 0px 5px;
 
 }
+.firstDiv{
+    display: inline-block;
+    min-width: 30%;
+}
+.secondDiv{
+    display: inline-block;
+    width: 260px;
+}

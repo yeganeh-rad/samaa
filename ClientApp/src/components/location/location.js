@@ -62,7 +62,9 @@ class Location extends React.Component{
     render(){
         return(
             <div className="Location">
-                <label htmlFor={this.props.identity}>{this.props.title}</label>
+                <div className={styles.firstDiv}> <label htmlFor={this.props.identity}>{this.props.title}</label></div>
+                <div className={styles.secondDiv}>
+               
                 <select className="browser-default custom-select max-width-85" id={this.props.identity + '0'} name={this.props.identity + '0'} onChange={this.onChangeHandler}>
                     {this.state.listData.country.map((number) => <option value={number.id} key={number.id}>{number.name}</option>)}
                 </select>
@@ -73,6 +75,7 @@ class Location extends React.Component{
                     <option defaultValue="0">شهر</option>
                     {this.state.listData.city.map((number) => <option value={number.id} key={number.id}>{number.name}</option>)}
                 </select>
+                </div>
                 <small id={this.props.identity + "help"} className="form-text text-muted">{this.props.helperMessage}</small>
                 <div className={styles.errr} role="alert" hidden={this.props.validation || this.state.hidden || this.props.disableValidation}>
                     {this.props.onErrorMessage}

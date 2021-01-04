@@ -9,8 +9,7 @@
 .green{color:rgb(7, 119, 3);}
 .red{color:rgb(248, 18, 10);}
 .action i{
-  
-    margin: 0px 5px 0px 5px;
+    margin: 5px 5px 5px 5px;
     ;line-height: 0.7;
 }
 .scroll{

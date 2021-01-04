@@ -46,9 +46,10 @@ class DatePicker extends React.Component{
     render(){
         return(
             <div className="datePickers">
-                
+                <div className={styles.firstDiv}>
                 <label htmlFor={this.props.identity}>{this.props.title}</label>
-                
+                </div>
+                <div className={styles.secondDiv}>
                 <select className="browser-default custom-select max-width-85" id={this.props.identity+'0'} name={this.props.identity+'0'} onChange={this.onChangeHandler}>
                 <option defaultValue="0">سال</option>
                   {this.state.years.map((number)=><option value={number} key={number}>{number}</option>)}
@@ -61,7 +62,7 @@ class DatePicker extends React.Component{
                 <option defaultValue="0">روز</option>
                   {this.state.day.map((number)=><option value={number}  key={number}>{number}</option>)}
                 </select>
-                
+                </div>
                 <small id={this.props.identity+"help"}  className="form-text text-muted">{this.props.helperMessage}</small>
                 <div className={styles.errr} role="alert" hidden={this.state.hidden|| this.props.validation}>
                     {this.props.onErrorMessage}

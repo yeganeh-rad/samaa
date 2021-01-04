@@ -196,7 +196,7 @@ tr{
 }
 .personal-form label{
     padding-left: 20px;
-    text-align: left;
+    text-align: right;
 }
 input::-webkit-input-placeholder {
   color: black; /*Change the placeholder color*/

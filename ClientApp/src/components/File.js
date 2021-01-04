@@ -61,7 +61,7 @@ export class File extends Component {
                                     <div className="row">
                                         <div className="col-md-12">
                                             <Tables  
-                                                                headers={['ردیف', 'نام', 'نام خانوادگی', 'کدملی','عملیات']}
+                                                                headers={['ردیف', 'نام', 'نام خانوادگی', 'عملیات']}
                                                                 url="customer/table/1"
                                                                 urlDelete="customer/delete"
                                                                 editable="true"

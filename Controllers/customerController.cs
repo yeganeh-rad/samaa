@@ -25,8 +25,7 @@ namespace  sama.Controllers
                 return await _context.personalCustomers
                             .Where(x=>x.scoringFiles.ID==defaultFile().ID)
                             .Select(c=>new sama.VM.customerList{
-                                        nin=c.nin
-                                        ,family=c.lastName
+                                        family=c.lastName
                                         ,name=c.firstName
                                         ,id=c.ID
                                     })

@@ -210,8 +210,8 @@ getPerson=(event)=>{
   render() {
     return (
       <div className="row personal-form" hidden={this.props.hidden}>
-        <div className="col-md-1 col-sm-0 col-0"></div>
-        <div className="col-md-10 col-sm-12 col-12">
+        <div className="col-lg-1 col-md-0 col-sm-0 col-0"></div>
+        <div className="col-lg-10 col-md-12 col-sm-12 col-12">
           <div className="boxer">
             <div className="login-header">
               <img className="logo" src="/image/imageedit.png" alt=""></img>
@@ -508,7 +508,7 @@ getPerson=(event)=>{
             </form>
           </div>
         </div>
-        <div className="col-md-1 col-sm-0 col-0"></div>
+        <div className="col-lg-1 col-md-0 col-sm-0 col-0"></div>
         
       </div>
     );
